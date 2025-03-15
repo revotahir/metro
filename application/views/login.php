@@ -14,6 +14,7 @@
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
     <link rel="stylesheet" href="<?=base_url()?>assets/css/style.css" />
+    <link rel="stylesheet" href="<?= base_url() ?>assets/toastr/toastr.min.css">
   </head>
   <body>
     <!-- ============================================= -->
@@ -141,6 +142,22 @@
     <!-- footer section end here -->
     <!-- ============================================= -->
   </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="<?= base_url() ?>assets/toastr/toastr.min.js"></script>
+    <?php
+    if ($this->session->flashdata('error') != '') {
+    ?>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.error('Invalid Login!');
+    </script>
+    <?php
+    }
+    ?>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll("input[required]").forEach((input) => {
