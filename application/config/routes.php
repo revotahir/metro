@@ -53,6 +53,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['login-data'] = 'welcome/LoginData';
 $route['dashboard'] = 'welcome/AdminDashboard'; //admin Dashboard
+
+
+// venders route
+$route['venders'] = 'welcome/AdminVenders'; 
+$route['add-vender']= 'welcome/AddAdminVenders';
+$route['all-vender']= 'welcome/AllAdminVenders';
+
+
+// customers route
+$route['customers'] = 'welcome/AdminCustomers'; 
+$route['add-customer'] = 'welcome/AddAdminCustomers'; 
+$route['all-customer'] = 'welcome/AllAdminCustomers'; 
+
+
+
+
+
+
 $route['logout'] = 'welcome/LogOut';
 
 $route['default_controller'] = 'welcome';
