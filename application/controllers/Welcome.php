@@ -29,6 +29,9 @@ class Welcome extends CI_Controller
 	{
 		$this->load->view('login');
 	}
+	// <!-- ============================================================== -->
+    // <!-- Login function -->
+    // <!-- ============================================================== -->
 	public function LoginData() {
 		$email=$this->input->post('email-address');
 		$pass=$this->input->post('email-password');
@@ -47,14 +50,123 @@ class Welcome extends CI_Controller
 		}
 	}
 
-public function AdminDashboard(){
-	if ($this->session->userdata('loginData')) {
-		$this->load->view('dashboard-admin');
-	}else{
-		redirect(base_url());
-	}
-}
+	// <!-- ============================================================== -->
+    // <!-- redirect to dashboard -->
+    // <!-- ============================================================== -->
 
+	// redirect to page with check
+	public function AdminDashboard(){
+		if ($this->session->userdata('loginData')) {
+			$this->load->view('dashboard-admin');
+		}else{
+			redirect(base_url());
+		}
+	}
+
+
+	// <!-- ============================================================== -->
+    // <!-- vender redirect and insert function -->
+    // <!-- ============================================================== -->
+
+	// redirect to page with check
+	public function AdminVenders(){
+		if($this->session->userData('loginData')){
+			$this->load->view('add-venders');
+		}else{
+			redirect(base_url());
+		}
+	}
+	// add vender
+	public function AddAdminVenders(){
+		$userName = $this->input->post('user-name');
+		$userEmail = $this->input->post('user-email');
+		$userPhone = $this->input->post('user-phone');
+		$userPassword = $this->input->post('user-password');
+
+		$this->db->where('userEmail' , $userEmail);
+		$query = $this->db->get('users');
+		if($query->num_rows()>0){
+			$this->session->set_flashdata('alreadyRegistered', 1);
+			redirect(base_url('venders'));
+		}
+		else{
+			$VenderUserData = array(
+				'userName'=> $userName,
+				'userEmail'=> $userEmail,
+				'userPhone'=> $userPhone,
+				'userPass'=> $userPassword,
+				'userType'=> 3,
+			);
+			$this->db->insert('users' , $VenderUserData);
+			$this->session->set_flashdata('successfullyRegistered', 1);
+			redirect(base_url('venders'));
+		}
+	}
+	// show vender data
+	public function AllAdminVenders(){
+		if($this->session->userData('loginData'))
+		{
+			$this->data['vendersList'] = $this->generic->GetData('users' , array('userType'=>3));
+			$this->load->view('venders-data', $this->data);
+		}else{
+			redirect(base_url());
+		}
+	}
+
+
+	// <!-- ============================================================== -->
+    // <!-- customer redirect and insert function -->
+    // <!-- ============================================================== -->
+
+	// redirect to page with check
+	public function AdminCustomers(){
+		if($this->session->userData('loginData')){
+			$this->load->view('add-customers');
+		}else{
+			redirect(base_url());
+		}
+	}
+	
+	// add customer
+	public function AddAdminCustomers(){
+		$userName = $this->input->post('cstm-user-name');
+		$userEmail = $this->input->post('cstm-user-email');
+		$userPhone = $this->input->post('cstm-user-phone');
+		$userPassword = $this->input->post('cstm-user-password');
+
+		$this->db->where('userEmail' , $userEmail);
+		$query = $this->db->get('users');
+		if($query->num_rows()>0){
+			$this->session->set_flashdata('alreadyRegistered', 1);
+			redirect(base_url('customers'));
+		}
+		else{
+		$customerUserData = array(
+			'userName'=> $userName,
+			'userEmail'=> $userEmail,
+			'userPhone'=> $userPhone,
+			'userPass'=> $userPassword,
+			'userType'=> 2,
+		);
+		$this->db->insert('users' , $customerUserData);
+		$this->session->set_flashdata('successfullyRegistered', 1);
+		redirect('customers');
+		}
+	}
+	// show customer data
+	public function AllAdminCustomers(){
+		if($this->session->userData('loginData')){
+			$this->data['customersList'] = $this->generic->GetData('users' , array('userType'=>2));
+			$this->load->view('customers-data', $this->data);
+		}else{
+			redirect(base_url());
+		}
+	}
+	
+	
+	// <!-- ============================================================== -->
+    // <!-- logout function -->
+    // <!-- ============================================================== -->
 	public function LogOut()
 	{
 		$this->session->unset_userdata('loginData');
