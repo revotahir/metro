@@ -210,6 +210,44 @@ class Welcome extends MY_Controller
 
 
 	// <!-- ============================================================== -->
+    // <!-- category function -->
+    // <!-- ============================================================== -->
+	// redirect category page
+	public function AdminCategory(){
+		$this->data['categoryList'] = $this->generic->GetData('productcategory');
+		$this->load->view('category', $this->data);
+	}
+	// add category
+	public function AddAdminCategory(){
+		$catData = array(
+			'catName' => $this->input->post('cat-name'),
+		);
+		$this->generic->InsertData('productcategory' , $catData);
+		$this->session->set_flashdata('successfullyAdded',1);
+		redirect(base_url('category'));
+	}
+	//delete category
+	public function deleteCategory(){
+		$this->generic->Delete('productcategory' , array('catID'=> $this->uri->segment(2)));
+		$this->session->set_flashdata('categoryDeleted' , 1);
+		redirect(base_url('category'));
+	} 
+	// update category
+	public function updateCategory(){
+		
+	}
+
+	// <!-- ============================================================== -->
+    // <!-- product function -->
+    // <!-- ============================================================== -->
+	//redirect product page
+	public function AddAdminProduct(){
+		$this->load->view('add-products');
+	} 
+
+
+
+	// <!-- ============================================================== -->
     // <!-- logout function -->
     // <!-- ============================================================== -->
 	public function LogOut()

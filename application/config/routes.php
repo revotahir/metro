@@ -74,15 +74,22 @@ $route['activate-customer/:any'] = 'welcome/activateCustomers';
 $route['delete-customer/:any'] = 'welcome/deleteCustomers'; 
 $route['edit-customer/:any'] = 'welcome/updateCustomers'; 
 
+// category route
+$route['category'] = 'welcome/AdminCategory';
+$route['add-category'] = 'welcome/AddAdminCategory';
+$route['delete-category/:any'] = 'welcome/deleteCategory';
+$route['edit-category/:any'] = 'welcome/updateCategory';
+
+
+
+// product route
+$route['add-new-product'] = 'welcome/AddAdminProduct';
 
 
 
 
 
 $route['logout'] = 'welcome/LogOut';
-
 $route['default_controller'] = 'welcome';
-
-
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

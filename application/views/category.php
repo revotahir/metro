@@ -7,13 +7,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="<?=base_url()?>assets/images/favicon.png" type="image/png" />
-    <title>Add Venders</title>
+    <title>Add Category</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?=base_url()?>assets/admin/vendor/bootstrap/css/bootstrap.min.css">
     <link href="<?=base_url()?>assets/admin/vendor/fonts/circular-std/style.css" rel="stylesheet">
     <link rel="stylesheet" href="<?=base_url()?>assets/admin/libs/css/style.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/toastr/toastr.min.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/admin/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <style>
+    .space-gap {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        .fa-pencil-alt {
+            fill: green;
+            color: green;
+        }
+
+        .fa-trash-alt {
+            fill: #ef172c;
+            color: #ef172c;
+        }
+    }
+    </style>
 </head>
 
 <body>
@@ -35,14 +52,14 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Add Vendors</h2>
+                            <h2 class="pageheader-title">Add Category</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="<?=base_url('dashboard')?>"
                                                 class="breadcrumb-link">Dashboard</a>
                                         </li>
-                                        <li class="breadcrumb-item active" aria-current="page">Vendors</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Category</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -59,16 +76,16 @@
                     <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Vendor Form</h5>
+                            <h5 class="card-header">Category Form</h5>
                             <div class="card-body">
                                 <form class="needs-validation" novalidate method="post"
-                                    action="<?=base_url('add-vendor')?>">
+                                    action="<?=base_url('add-category')?>">
                                     <div class="row">
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                            <label for="user-name">Vendor name</label>
-                                            <input type="text" class="form-control" id="user-name" name="user-name"
-                                                placeholder="Enter Vendor" required>
+                                            <label for="cat-name">Category name</label>
+                                            <input type="text" class="form-control" id="cat-name" name="cat-name"
+                                                placeholder="Enter Category" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -76,45 +93,6 @@
                                                 Please enter a user name.
                                             </div>
                                         </div>
-                                        <!-- field  -->
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-email">Vendor Email</label>
-                                            <input type="email" class="form-control" id="user-email" name="user-email"
-                                                placeholder="Vendor Email" required>
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Please enter a user email.
-                                            </div>
-                                        </div>
-                                        <!-- field  -->
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-phone">Vendor Phone</label>
-                                            <input type="tel" class="form-control" id="user-phone" name="user-phone"
-                                                placeholder="Vendor Phone" required>
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Please enter a user phone.
-                                            </div>
-                                        </div>
-                                        <!-- field  -->
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-password">Vendor Password</label>
-                                            <input type="text" class="form-control" id="user-password"
-                                                name="user-password" placeholder="Vendor Password" required>
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Please enter a user password.
-                                            </div>
-                                            <button class="btn btn-dark m-t-10" type="button">Generate
-                                                Password</button>
-                                        </div>
-
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <button class="btn btn-primary" type="submit">Submit form</button>
                                         </div>
@@ -122,6 +100,76 @@
                                 </form>
                             </div>
                         </div>
+
+                        <!-- ============================================================== -->
+                        <!-- data table  -->
+                        <!-- ============================================================== -->
+                        <div class="card m-t-10">
+                            <Div class="card-header">
+                                <h5 class="mb-0">Category Data</h5>
+                            </Div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example" class="table table-striped table-bordered second"
+                                        style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Category Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            if($categoryList){
+                                                $sr=1;
+                                                foreach($categoryList as $row){
+                                            ?>
+                                            <tr>
+                                                <td><?=$sr.'.'?></td>
+                                                <td><?=$row['catName']?></td>
+                                                <td class="space-gap">
+                                                    <!-- edit -->
+                                                    <a href="<?=base_url('edit-category/').$row['catID']?>">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <!-- delete -->
+                                                    <a href="<?=base_url('delete-category/').$row['catID']?>"
+                                                        onclick="return confirmDelete()">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            $sr++;
+                                            }
+                                        }else{
+                                            ?>
+                                            <tr>
+                                                <td colspan="3">
+                                                    <center>No Data Found!</center>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            }
+                                            ?>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Category Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- end data table  -->
+                        <!-- ============================================================== -->
+
                     </div>
                     <!-- ============================================================== -->
                     <!-- end validation form -->
@@ -143,7 +191,7 @@
     <script src="<?= base_url() ?>assets/toastr/toastr.min.js"></script>
 
     <?php
-    if ($this->session->flashdata('alreadyRegistered') != '') {
+    if ($this->session->flashdata('successfullyAdded') != '') {
     ?>
     <script type="text/javascript">
     toastr.options = {
@@ -151,13 +199,14 @@
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    toastr.error('Email Already Registered!');
+    toastr.success('Category Added Successfully!');
     </script>
     <?php
     }
     ?>
+    <!-- delete -->
     <?php
-    if ($this->session->flashdata('successfullyRegistered') != '') {
+    if ($this->session->flashdata('categoryDeleted') != '') {
     ?>
     <script type="text/javascript">
     toastr.options = {
@@ -165,11 +214,22 @@
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    toastr.success('Vender Registered!');
+    toastr.error('Category Deleted!');
     </script>
     <?php
     }
     ?>
+
+    <script>
+    function confirmDelete() {
+        if (confirm('Are you sure you want to delete category?')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    </script>
+
 
     <script>
     $('#form').parsley();
