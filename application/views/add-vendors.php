@@ -35,14 +35,14 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Add Venders</h2>
+                            <h2 class="pageheader-title">Add Vendors</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="<?=base_url('dashboard')?>"
                                                 class="breadcrumb-link">Dashboard</a>
                                         </li>
-                                        <li class="breadcrumb-item active" aria-current="page">Venders</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Vendors</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -59,7 +59,7 @@
                     <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Vender Form</h5>
+                            <h5 class="card-header">Vendor Form</h5>
                             <div class="card-body">
                                 <form class="needs-validation" novalidate method="post"
                                     action="<?=base_url('add-vender')?>">

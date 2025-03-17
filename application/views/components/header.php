@@ -62,14 +62,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false"
                                 data-target="#submenu-2" aria-controls="submenu-2"><i
-                                    class="fas fa-user"></i>Venders</a>
+                                    class="fas fa-user"></i>Vendors</a>
                             <div id="submenu-2" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="<?=base_url('venders')?>">Add new Venders</a>
+                                        <a class="nav-link" href="<?=base_url('vendors')?>">Add new Vendors</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="<?=base_url('all-vender')?>">Manage Venders</a>
+                                        <a class="nav-link" href="<?=base_url('all-vendor')?>">Manage Vendors</a>
                                     </li>
                                 </ul>
                             </div>
@@ -91,8 +91,8 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false"
-                                data-target="#submenu-4" aria-controls="submenu-4"><i
-                                    class="fas fa-boxes"></i>Manage Products</a>
+                                data-target="#submenu-4" aria-controls="submenu-4"><i class="fas fa-boxes"></i>Manage
+                                Products</a>
                             <div id="submenu-4" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">

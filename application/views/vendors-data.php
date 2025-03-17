@@ -59,14 +59,14 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">All Venders</h2>
+                            <h2 class="pageheader-title">All Vendors</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="<?=base_url('dashboard')?>"
                                                 class="breadcrumb-link">Dashboard</a>
                                         </li>
-                                        <li class="breadcrumb-item active" aria-current="page">All Venders</li>
+                                        <li class="breadcrumb-item active" aria-current="page">All Vendors</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -84,7 +84,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <Div class="card-header">
-                                <h5 class="mb-0">Venders Data</h5>
+                                <h5 class="mb-0">Vendors Data</h5>
                             </Div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -93,19 +93,19 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Vender Name</th>
-                                                <th>Vender Email</th>
-                                                <th>Vender Phone</th>
-                                                <th>Vender Password</th>
+                                                <th>Vendor Name</th>
+                                                <th>Vendor Email</th>
+                                                <th>Vendor Phone</th>
+                                                <th>Vendor Password</th>
                                                 <th>Account Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            if($vendersList){
+                                            if($vendorsList){
                                                 $sr=1;
-                                                foreach($vendersList as $row){
+                                                foreach($vendorsList as $row){
                                             ?>
                                             <tr>
                                                 <td><?=$sr.'.'?></td>
@@ -130,21 +130,36 @@
                                                     <a href="<?=base_url('deactivate-vendor/').$row['userID']?>"
                                                         onclick="return confirmDeactivate()"
                                                         class="btn btn-danger">Deactivate</a>
-                                                    <a href="<?=base_url('edit-vender/').$row['userID']?>">
+
+                                                    <!-- edit -->
+                                                    <a href="<?=base_url('edit-vendor/').$row['userID']?>">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
-                                                    <a href="<?=base_url('delete-vender/').$row['userID']?>"
+                                                    <!-- delete -->
+                                                    <a href="<?=base_url('delete-vendor/').$row['userID']?>"
                                                         onclick="return confirmDelete()">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
+
                                                 </td>
                                                 <?php    
                                             }else{
                                                   ?>
-                                                <td>
+                                                <td class="space-gap">
                                                     <a href="<?=base_url('activate-vendor/').$row['userID']?>"
                                                         onclick="return confirmActivate()"
                                                         class="btn btn-primary">Activate</a>
+
+                                                    <!-- edit -->
+                                                    <a href="<?=base_url('edit-vendor/').$row['userID']?>">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <!-- delete -->
+                                                    <a href="<?=base_url('delete-vendor/').$row['userID']?>"
+                                                        onclick="return confirmDelete()">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+
                                                 </td>
                                                 <?php 
                                                 }
@@ -169,10 +184,10 @@
                                         <tfoot>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Vender Name</th>
-                                                <th>Vender Email</th>
-                                                <th>Vender Phone</th>
-                                                <th>Vender Password</th>
+                                                <th>Vendor Name</th>
+                                                <th>Vendor Email</th>
+                                                <th>Vendor Phone</th>
+                                                <th>Vendor Password</th>
                                                 <th>Account Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -245,7 +260,7 @@
     ?>
     <!-- delete -->
     <?php
-    if ($this->session->flashdata('venderDeleted') != '') {
+    if ($this->session->flashdata('vendorDeleted') != '') {
     ?>
     <script type="text/javascript">
     toastr.options = {
@@ -276,7 +291,7 @@
     }
 
     function confirmDelete() {
-        if (confirm('Are you sure you want to delete vender account')) {
+        if (confirm('Are you sure you want to delete vendor account')) {
             return true;
         } else {
             return false;

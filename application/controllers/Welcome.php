@@ -65,19 +65,19 @@ class Welcome extends MY_Controller
 
 
 	// <!-- ============================================================== -->
-    // <!-- vender redirect and insert function -->
+    // <!-- vendor redirect and insert function -->
     // <!-- ============================================================== -->
 
 	// redirect to page with check
-	public function AdminVenders(){
+	public function AdminVendors(){
 		if($this->session->userData('loginData')){
-			$this->load->view('add-venders');
+			$this->load->view('add-vendors');
 		}else{
 			redirect(base_url());
 		}
 	}
-	// add vender
-	public function AddAdminVenders(){
+	// add vendor
+	public function AddAdminVendors(){
 		$userName = $this->input->post('user-name');
 		$userEmail = $this->input->post('user-email');
 		$userPhone = $this->input->post('user-phone');
@@ -87,52 +87,52 @@ class Welcome extends MY_Controller
 		$query = $this->db->get('users');
 		if($query->num_rows()>0){
 			$this->session->set_flashdata('alreadyRegistered', 1);
-			redirect(base_url('venders'));
+			redirect(base_url('vendors'));
 		}
 		else{
-			$VenderUserData = array(
+			$VendorUserData = array(
 				'userName'=> $userName,
 				'userEmail'=> $userEmail,
 				'userPhone'=> $userPhone,
 				'userPass'=> $userPassword,
 				'userType'=> 3,
 			);
-			$this->generic->InsertData('users' , $VenderUserData);
+			$this->generic->InsertData('users' , $VendorUserData);
 			$this->session->set_flashdata('successfullyRegistered', 1);
-			redirect(base_url('venders'));
+			redirect(base_url('vendors'));
 		}
 	}
-	// show vender data
-	public function AllAdminVenders(){
+	// show vendor data
+	public function AllAdminVendors(){
 		if($this->session->userData('loginData'))
 		{
-			$this->data['vendersList'] = $this->generic->GetData('users' , array('userType'=>3));
-			$this->load->view('venders-data', $this->data);
+			$this->data['vendorsList'] = $this->generic->GetData('users' , array('userType'=>3));
+			$this->load->view('vendors-data', $this->data);
 		}else{
 			redirect(base_url());
 		}
 	}
-	// deactive vender 
+	// deactive vendor 
 	public function deactivateVendor(){
 		$this->generic->Update('users',array('userID'=>$this->uri->segment(2)) , array('userStatus'=>0));
 		$this->session->set_flashdata('vendorDeactivated', 1);
-		redirect(base_url('all-vender'));
+		redirect(base_url('all-vendor'));
 	}
-	// active vender
+	// active vendor
 	public function activateVendor(){
 		$this->generic->Update('users', array('userID'=>$this->uri->segment(2)) , array('userStatus'=>1));
 		$this->session->set_flashdata('vendorActivated', 1);
-		redirect(base_url('all-vender'));
+		redirect(base_url('all-vendor'));
 	}
-	// delete vender
+	// delete vendor
 	public function deleteVendor(){
 		$this->generic->Delete('users', array('userID'=>$this->uri->segment(2)));
-		$this->session->set_flashdata('venderDeleted' , 1);
-		redirect(base_url('all-vender'));
+		$this->session->set_flashdata('vendorDeleted' , 1);
+		redirect(base_url('all-vendor'));
 	}
-	// update vender
+	// update vendor
 	public function updateVendor(){
-		$this->load->view('update-vender');
+		$this->load->view('update-vendor');
 	}
 
 	// <!-- ============================================================== -->
@@ -183,8 +183,32 @@ class Welcome extends MY_Controller
 			redirect(base_url());
 		}
 	}
-	
-	
+	// deactive customer
+	public function deactivateCustomers(){
+		$this->generic->Update('users', array('userID'=>$this->uri->segment(2)) , array('userStatus' =>0));
+		$this->session->set_flashdata('customerDeactivated', 1);
+		redirect(base_url('all-customer'));
+	}
+	// active customer
+	public function activateCustomers(){
+		$this->generic->Update('users' , array('userID'=>$this->uri->segment(2)) , array('userStatus'=>1));
+		$this->session->set_flashdata('customerActivated', 1);
+		redirect(base_url('all-customer'));
+	}
+	// delete customer
+	public function deleteCustomers()
+	{
+		$this->generic->Delete('users' , array('userID'=>$this->uri->segment(2)));
+		$this->session->set_flashdata('customerDeleted' , 1);
+		redirect(base_url('all-customer'));
+	}
+	// update customer
+	public function updateCustomers(){
+		$this->load->view('update-vendor');
+	}
+
+
+
 	// <!-- ============================================================== -->
     // <!-- logout function -->
     // <!-- ============================================================== -->

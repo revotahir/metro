@@ -55,20 +55,24 @@ $route['login-data'] = 'welcome/LoginData';
 $route['dashboard'] = 'welcome/AdminDashboard'; //admin Dashboard
 
 
-// venders route
-$route['venders'] = 'welcome/AdminVenders'; 
-$route['add-vender']= 'welcome/AddAdminVenders';
-$route['all-vender']= 'welcome/AllAdminVenders';
+// vendors route
+$route['vendors'] = 'welcome/AdminVendors'; 
+$route['add-vendor']= 'welcome/AddAdminVendors';
+$route['all-vendor']= 'welcome/AllAdminVendors';
 $route['deactivate-vendor/:any']= 'welcome/deactivateVendor';
 $route['activate-vendor/:any']= 'welcome/activateVendor';
-$route['delete-vender/:any']= 'welcome/deleteVendor';
-$route['edit-vender/:any']= 'welcome/updateVendor';
+$route['delete-vendor/:any']= 'welcome/deleteVendor';
+$route['edit-vendor/:any']= 'welcome/updateVendor';
 
 
 // customers route
 $route['customers'] = 'welcome/AdminCustomers'; 
 $route['add-customer'] = 'welcome/AddAdminCustomers'; 
 $route['all-customer'] = 'welcome/AllAdminCustomers'; 
+$route['deactivate-customer/:any'] = 'welcome/deactivateCustomers'; 
+$route['activate-customer/:any'] = 'welcome/activateCustomers'; 
+$route['delete-customer/:any'] = 'welcome/deleteCustomers'; 
+$route['edit-customer/:any'] = 'welcome/updateCustomers'; 
 
 
 
