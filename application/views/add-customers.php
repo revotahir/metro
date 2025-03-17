@@ -66,9 +66,9 @@
                                     <div class="row">
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                            <label for="cstm-user-name">User name</label>
+                                            <label for="cstm-user-name">Customer name</label>
                                             <input type="text" class="form-control" id="cstm-user-name"
-                                                name="cstm-user-name" placeholder="Enter Name" required>
+                                                name="cstm-user-name" placeholder="Customer Name" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -78,7 +78,7 @@
                                         </div>
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="cstm-user-email">User Email</label>
+                                            <label for="cstm-user-email">Customer Email</label>
                                             <input type="email" class="form-control" id="cstm-user-email"
                                                 name="cstm-user-email" placeholder="Enter Email" required>
                                             <div class="valid-feedback">
@@ -90,7 +90,7 @@
                                         </div>
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="cstm-user-phone">User Phone</label>
+                                            <label for="cstm-user-phone">Customer Phone</label>
                                             <input type="tel" class="form-control" id="cstm-user-phone"
                                                 name="cstm-user-phone" placeholder="Enter Phone" required>
                                             <div class="valid-feedback">
@@ -102,7 +102,7 @@
                                         </div>
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="cstm-user-password">User Password</label>
+                                            <label for="cstm-user-password">Customer Password</label>
                                             <input type="text" class="form-control" id="cstm-user-password"
                                                 name="cstm-user-password" placeholder="Enter Password" required>
                                             <div class="valid-feedback">

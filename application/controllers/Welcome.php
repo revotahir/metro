@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Welcome extends CI_Controller
+class Welcome extends MY_Controller 
 {
 	function __construct()
 	{
@@ -112,7 +112,11 @@ class Welcome extends CI_Controller
 			redirect(base_url());
 		}
 	}
-
+	public function deactivateVendor(){
+		$this->generic->Update('users',array('userID'=>$this->uri->segment(2)),array('userStatus'=>0));
+		$this->session->set_flashdata('vendorDeactivated', 1);
+			redirect(base_url('all-vender'));
+	}
 
 	// <!-- ============================================================== -->
     // <!-- customer redirect and insert function -->

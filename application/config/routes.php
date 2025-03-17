@@ -59,6 +59,7 @@ $route['dashboard'] = 'welcome/AdminDashboard'; //admin Dashboard
 $route['venders'] = 'welcome/AdminVenders'; 
 $route['add-vender']= 'welcome/AddAdminVenders';
 $route['all-vender']= 'welcome/AllAdminVenders';
+$route['deactivate-vendor/:any']= 'welcome/deactivateVendor';
 
 
 // customers route

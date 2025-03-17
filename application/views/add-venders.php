@@ -66,9 +66,9 @@
                                     <div class="row">
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                            <label for="user-name">User name</label>
+                                            <label for="user-name">Vendor name</label>
                                             <input type="text" class="form-control" id="user-name" name="user-name"
-                                                placeholder="Enter Name" required>
+                                                placeholder="Enter Vendor" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -78,9 +78,9 @@
                                         </div>
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-email">User Email</label>
+                                            <label for="user-email">Vendor Email</label>
                                             <input type="email" class="form-control" id="user-email" name="user-email"
-                                                placeholder="Enter Email" required>
+                                                placeholder="Vendor Email" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -90,9 +90,9 @@
                                         </div>
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-phone">User Phone</label>
+                                            <label for="user-phone">Vendor Phone</label>
                                             <input type="tel" class="form-control" id="user-phone" name="user-phone"
-                                                placeholder="Enter Phone" required>
+                                                placeholder="Vendor Phone" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -102,9 +102,9 @@
                                         </div>
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-password">User Password</label>
+                                            <label for="user-password">Vendor Password</label>
                                             <input type="text" class="form-control" id="user-password"
-                                                name="user-password" placeholder="Enter Password" required>
+                                                name="user-password" placeholder="Vendor Password" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>

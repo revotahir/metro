@@ -20,6 +20,7 @@
         href="<?=base_url()?>assets/admin/vendor/datatables/css/select.bootstrap4.css">
     <link rel="stylesheet" type="text/css"
         href="<?=base_url()?>assets/admin/vendor/datatables/css/fixedHeader.bootstrap4.css">
+        <link rel="stylesheet" href="<?= base_url() ?>assets/toastr/toastr.min.css">
 </head>
 
 <body>
@@ -79,8 +80,8 @@
                                                 <th>Vender Email</th>
                                                 <th>Vender Phone</th>
                                                 <th>Vender Password</th>
-                                                <th>Vender Type</th>
-                                                <th>Vender Status</th>
+                                                <th>Account Status</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -95,20 +96,27 @@
                                                 <td><?=$row['userEmail']?></td>
                                                 <td><?=$row['userPhone']?></td>
                                                 <td><?=$row['userPass']?></td>
-                                                <td><?=$row['userType']?></td>
+                                                <td><?php 
+                                                if($row['userStatus']==1){
+                                                ?>
+                                                <span class="text-success">Active</span>
+                                                <?php   
+                                                }else{
+                                                    ?>
+                                                     <span class="text-danger">Inactive</span>               
+                                                    <?php } ?>
+                                                </td>
                                                 <?php
                                                 if($row['userStatus']==1){
                                                 ?>
                                                 <td>
-                                                    <button class="btn btn-success">Edit</button>
-                                                    <button class="btn btn-danger">De Active</button>
+                                                    <a href="<?=base_url('deactivate-vendor/').$row['userID']?>" onclick="return confirmDeactivate()" class="btn btn-danger">Deactivate</a>
                                                 </td>
                                                 <?php    
                                             }else{
                                                   ?>
                                                 <td>
-                                                    <button class="btn btn-success">Edit</button>
-                                                    <button class="btn btn-primary">Active</button>
+                                                    <a href="<?=base_url('activate-vendor/').$row['userID']?>" class="btn btn-primary">Activate</a>
                                                 </td>
                                                 <?php 
                                                 }
@@ -137,8 +145,8 @@
                                                 <th>Vender Email</th>
                                                 <th>Vender Phone</th>
                                                 <th>Vender Password</th>
-                                                <th>Vender Type</th>
-                                                <th>Vender Status</th>
+                                                <th>Account Status</th>
+                                                <th>Action</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -176,6 +184,30 @@
     <script src="https://cdn.datatables.net/rowgroup/1.0.4/js/dataTables.rowGroup.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+    <script src="<?= base_url() ?>assets/toastr/toastr.min.js"></script>
+    <?php
+    if ($this->session->flashdata('vendorDeactivated') != '') {
+    ?>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.error('Vendor Account Deactivated!');
+    </script>
+    <?php
+    }
+    ?>
+    <script>
+        function confirmDeactivate(){
+            if(confirm('Are you sure you want to deactivate vendor acount?')){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    </script>
 
 </body>
 
