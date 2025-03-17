@@ -50,7 +50,7 @@ class Generic_model extends CI_Model
         $this->db->where($where);
         $this->db->update($table, $set);
     }
-    public function Delet($table, $where)
+    public function Delete($table, $where)
     {
         $this->db->delete($table, $where);
     }

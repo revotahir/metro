@@ -97,7 +97,7 @@ class Welcome extends MY_Controller
 				'userPass'=> $userPassword,
 				'userType'=> 3,
 			);
-			$this->db->insert('users' , $VenderUserData);
+			$this->generic->InsertData('users' , $VenderUserData);
 			$this->session->set_flashdata('successfullyRegistered', 1);
 			redirect(base_url('venders'));
 		}
@@ -112,10 +112,27 @@ class Welcome extends MY_Controller
 			redirect(base_url());
 		}
 	}
+	// deactive vender 
 	public function deactivateVendor(){
-		$this->generic->Update('users',array('userID'=>$this->uri->segment(2)),array('userStatus'=>0));
+		$this->generic->Update('users',array('userID'=>$this->uri->segment(2)) , array('userStatus'=>0));
 		$this->session->set_flashdata('vendorDeactivated', 1);
-			redirect(base_url('all-vender'));
+		redirect(base_url('all-vender'));
+	}
+	// active vender
+	public function activateVendor(){
+		$this->generic->Update('users', array('userID'=>$this->uri->segment(2)) , array('userStatus'=>1));
+		$this->session->set_flashdata('vendorActivated', 1);
+		redirect(base_url('all-vender'));
+	}
+	// delete vender
+	public function deleteVendor(){
+		$this->generic->Delete('users', array('userID'=>$this->uri->segment(2)));
+		$this->session->set_flashdata('venderDeleted' , 1);
+		redirect(base_url('all-vender'));
+	}
+	// update vender
+	public function updateVendor(){
+		$this->load->view('update-vender');
 	}
 
 	// <!-- ============================================================== -->
@@ -152,7 +169,7 @@ class Welcome extends MY_Controller
 			'userPass'=> $userPassword,
 			'userType'=> 2,
 		);
-		$this->db->insert('users' , $customerUserData);
+		$this->generic->InsertData('users' , $customerUserData);
 		$this->session->set_flashdata('successfullyRegistered', 1);
 		redirect('customers');
 		}

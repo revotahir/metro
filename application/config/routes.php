@@ -60,6 +60,9 @@ $route['venders'] = 'welcome/AdminVenders';
 $route['add-vender']= 'welcome/AddAdminVenders';
 $route['all-vender']= 'welcome/AllAdminVenders';
 $route['deactivate-vendor/:any']= 'welcome/deactivateVendor';
+$route['activate-vendor/:any']= 'welcome/activateVendor';
+$route['delete-vender/:any']= 'welcome/deleteVendor';
+$route['edit-vender/:any']= 'welcome/updateVendor';
 
 
 // customers route
