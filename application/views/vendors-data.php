@@ -123,21 +123,21 @@
                                                     <span class="text-danger">Inactive</span>
                                                     <?php } ?>
                                                 </td>
-                                              
+
                                                 <td class="space-gap">
-                                                <?php
+                                                    <?php
                                                 if($row['userStatus']==1){
                                                 ?>
                                                     <a href="<?=base_url('deactivate-vendor/').$row['userID']?>"
                                                         onclick="return confirmDeactivate()"
                                                         class="btn btn-danger">Deactivate</a>
-                                                        <?php    
+                                                    <?php    
                                             }else{
                                                   ?>
-                                                  <a href="<?=base_url('activate-vendor/').$row['userID']?>"
+                                                    <a href="<?=base_url('activate-vendor/').$row['userID']?>"
                                                         onclick="return confirmActivate()"
                                                         class="btn btn-success">Activate</a>
-                                                        <?php 
+                                                    <?php 
                                                 }
                                                 ?>
                                                     <!-- edit -->
@@ -151,9 +151,9 @@
                                                     </a>
 
                                                 </td>
-                                                
-                                               
-                                               
+
+
+
                                             </tr>
                                             <?php   
                                             $sr++;
@@ -264,6 +264,7 @@
     <?php
     }
     ?>
+    <!-- vendor Update -->
     <?php
     if ($this->session->flashdata('VendorUpdated') != '') {
     ?>

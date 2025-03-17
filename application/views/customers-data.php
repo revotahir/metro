@@ -124,33 +124,24 @@
                                                     <span class="text-danger">Inactive</span>
                                                     <?php } ?>
                                                 </td>
-                                                <?php
+                                                <td class="space-gap">
+
+                                                    <?php
                                                 if($row['userStatus']==1){
                                                 ?>
-                                                <td class="space-gap">
+
                                                     <a href="<?=base_url('deactivate-customer/').$row['userID']?>"
                                                         onclick="return confirmDeactivate()"
                                                         class="btn btn-danger">Deactivate</a>
-
-                                                    <!-- edit -->
-                                                    <a href="<?=base_url('edit-customer/').$row['userID']?>">
-                                                        <i class="fas fa-pencil-alt"></i>
-                                                    </a>
-                                                    <!-- delete -->
-                                                    <a href="<?=base_url('delete-customer/').$row['userID']?>"
-                                                        onclick="return confirmDelete()">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </a>
-
-                                                </td>
-                                                <?php    
+                                                    <?php    
                                             }else{
                                                   ?>
-                                                <td class="space-gap">
                                                     <a href="<?=base_url('activate-customer/').$row['userID']?>"
                                                         onclick="return confirmActivate()"
-                                                        class="btn btn-primary">Activate</a>
-
+                                                        class="btn btn-success">Activate</a>
+                                                    <?php 
+                                                }
+                                                ?>
                                                     <!-- edit -->
                                                     <a href="<?=base_url('edit-customer/').$row['userID']?>">
                                                         <i class="fas fa-pencil-alt"></i>
@@ -162,9 +153,6 @@
                                                     </a>
 
                                                 </td>
-                                                <?php 
-                                                }
-                                                ?>
                                             </tr>
                                             <?php   
                                             $sr++;
@@ -270,6 +258,21 @@
         "hideMethod": "fadeOut"
     }
     toastr.success('Customer Account Deleted!');
+    </script>
+    <?php
+    }
+    ?>
+    <!-- vendor Update -->
+    <?php
+    if ($this->session->flashdata('CustomerUpdated') != '') {
+    ?>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Customer Account Updated!');
     </script>
     <?php
     }

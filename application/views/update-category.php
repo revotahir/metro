@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="<?=base_url()?>assets/images/favicon.png" type="image/png" />
-    <title>Add Category</title>
+    <title>Update Category</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?=base_url()?>assets/admin/vendor/bootstrap/css/bootstrap.min.css">
     <link href="<?=base_url()?>assets/admin/vendor/fonts/circular-std/style.css" rel="stylesheet">
@@ -52,7 +52,7 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Add Category</h2>
+                            <h2 class="pageheader-title">Update Category</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
@@ -60,6 +60,7 @@
                                                 class="breadcrumb-link">Dashboard</a>
                                         </li>
                                         <li class="breadcrumb-item active" aria-current="page">Category</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Update Category</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -79,13 +80,14 @@
                             <h5 class="card-header">Category Form</h5>
                             <div class="card-body">
                                 <form class="needs-validation" novalidate method="post"
-                                    action="<?=base_url('add-category')?>">
+                                    action="<?=base_url('update-category-data/').$category[0]['catID']?>">
                                     <div class="row">
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                             <label for="cat-name">Category name</label>
                                             <input type="text" class="form-control" id="cat-name" name="cat-name"
-                                                placeholder="Enter Category" required>
+                                                placeholder="Enter Category" value="<?=$category[0]['catName']?>"
+                                                required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -100,76 +102,6 @@
                                 </form>
                             </div>
                         </div>
-
-                        <!-- ============================================================== -->
-                        <!-- data table  -->
-                        <!-- ============================================================== -->
-                        <div class="card m-t-10">
-                            <Div class="card-header">
-                                <h5 class="mb-0">Category Data</h5>
-                            </Div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="example" class="table table-striped table-bordered second"
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Category Name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            if($categoryList){
-                                                $sr=1;
-                                                foreach($categoryList as $row){
-                                            ?>
-                                            <tr>
-                                                <td><?=$sr.'.'?></td>
-                                                <td><?=$row['catName']?></td>
-                                                <td class="space-gap">
-                                                    <!-- edit -->
-                                                    <a href="<?=base_url('edit-category/').$row['catID']?>">
-                                                        <i class="fas fa-pencil-alt"></i>
-                                                    </a>
-                                                    <!-- delete -->
-                                                    <a href="<?=base_url('delete-category/').$row['catID']?>"
-                                                        onclick="return confirmDelete()">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </a>
-
-                                                </td>
-                                            </tr>
-                                            <?php
-                                            $sr++;
-                                            }
-                                        }else{
-                                            ?>
-                                            <tr>
-                                                <td colspan="3">
-                                                    <center>No Data Found!</center>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                            }
-                                            ?>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Category Name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ============================================================== -->
-                        <!-- end data table  -->
-                        <!-- ============================================================== -->
-
                     </div>
                     <!-- ============================================================== -->
                     <!-- end validation form -->
@@ -219,21 +151,7 @@
     <?php
     }
     ?>
-    <!-- category Update -->
-    <?php
-    if ($this->session->flashdata('CategoryUpdated') != '') {
-    ?>
-    <script type="text/javascript">
-    toastr.options = {
-        "closeButton": true,
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    }
-    toastr.success('Category Updated!');
-    </script>
-    <?php
-    }
-    ?>
+
     <script>
     function confirmDelete() {
         if (confirm('Are you sure you want to delete category?')) {
