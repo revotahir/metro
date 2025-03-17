@@ -20,6 +20,25 @@
         href="<?=base_url()?>assets/admin/vendor/datatables/css/select.bootstrap4.css">
     <link rel="stylesheet" type="text/css"
         href="<?=base_url()?>assets/admin/vendor/datatables/css/fixedHeader.bootstrap4.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/toastr/toastr.min.css">
+
+    <style>
+    .space-gap {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        .fa-pencil-alt {
+            fill: green;
+            color: green;
+        }
+
+        .fa-trash-alt {
+            fill: #ef172c;
+            color: #ef172c;
+        }
+    }
+    </style>
 </head>
 
 <body>
@@ -79,8 +98,8 @@
                                                 <th>Customer Email</th>
                                                 <th>Customer Phone</th>
                                                 <th>Customer Password</th>
-                                                <th>Customer Type</th>
-                                                <th>Customer Status</th>
+                                                <th>Account Status</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -95,29 +114,72 @@
                                                 <td><?=$row['userEmail']?></td>
                                                 <td><?=$row['userPhone']?></td>
                                                 <td><?=$row['userPass']?></td>
-                                                <td><?=$row['userType']?></td>
+                                                <td><?php 
+                                                if($row['userStatus']==1){
+                                                ?>
+                                                    <span class="text-success">Active</span>
+                                                    <?php   
+                                                }else{
+                                                    ?>
+                                                    <span class="text-danger">Inactive</span>
+                                                    <?php } ?>
+                                                </td>
                                                 <?php
                                                 if($row['userStatus']==1){
                                                 ?>
-                                                <td>
-                                                    <button class="btn btn-success">Edit</button>
-                                                    <button class="btn btn-danger">De Active</button>
+                                                <td class="space-gap">
+                                                    <a href="<?=base_url('deactivate-customer/').$row['userID']?>"
+                                                        onclick="return confirmDeactivate()"
+                                                        class="btn btn-danger">Deactivate</a>
+
+                                                    <!-- edit -->
+                                                    <a href="<?=base_url('edit-customer/').$row['userID']?>">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <!-- delete -->
+                                                    <a href="<?=base_url('delete-customer/').$row['userID']?>"
+                                                        onclick="return confirmDelete()">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+
                                                 </td>
-                                                <?php
-                                                }else{
-                                                ?>
-                                                <td>
-                                                    <button class="btn btn-success">Edit</button>
-                                                    <button class="btn btn-primary">Active</button>
+                                                <?php    
+                                            }else{
+                                                  ?>
+                                                <td class="space-gap">
+                                                    <a href="<?=base_url('activate-customer/').$row['userID']?>"
+                                                        onclick="return confirmActivate()"
+                                                        class="btn btn-primary">Activate</a>
+
+                                                    <!-- edit -->
+                                                    <a href="<?=base_url('edit-customer/').$row['userID']?>">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <!-- delete -->
+                                                    <a href="<?=base_url('delete-customer/').$row['userID']?>"
+                                                        onclick="return confirmDelete()">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+
                                                 </td>
-                                                <?php
+                                                <?php 
                                                 }
                                                 ?>
                                             </tr>
-                                            <?php
+                                            <?php   
                                             $sr++;
-                                            }
-                                            }
+                                        }
+                                    }else{
+                                        
+                                            ?>
+                                            <tr>
+                                                <td colspan="7">
+                                                    <center>No Data Found!</center>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            
+                                    }
                                             ?>
                                         </tbody>
                                         <tfoot>
@@ -127,8 +189,8 @@
                                                 <th>Customer Email</th>
                                                 <th>Customer Phone</th>
                                                 <th>Customer Password</th>
-                                                <th>Customer Type</th>
-                                                <th>Customer Status</th>
+                                                <th>Account Status</th>
+                                                <th>Action</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -166,6 +228,77 @@
     <script src="https://cdn.datatables.net/rowgroup/1.0.4/js/dataTables.rowGroup.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+    <script src="<?= base_url() ?>assets/toastr/toastr.min.js"></script>
+    <!-- deactive -->
+    <?php
+    if ($this->session->flashdata('customerDeactivated') != '') {
+    ?>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.error('Customer Account Deactivated!');
+    </script>
+    <?php
+    }
+    ?>
+    <!-- active -->
+    <?php
+    if ($this->session->flashdata('customerActivated') != '') {
+    ?>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Customer Account Activated!');
+    </script>
+    <?php
+    }
+    ?>
+    <!-- delete -->
+    <?php
+    if ($this->session->flashdata('customerDeleted') != '') {
+    ?>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Customer Account Deleted!');
+    </script>
+    <?php
+    }
+    ?>
+    <script>
+    function confirmDeactivate() {
+        if (confirm('Are you sure you want to deactivate customer account?')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function confirmActivate() {
+        if (confirm('Are you sure you want to activate customer account?')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function confirmDelete() {
+        if (confirm('Are you sure you want to delete customer account')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    </script>
 
 </body>
 

@@ -65,19 +65,19 @@ class Welcome extends MY_Controller
 
 
 	// <!-- ============================================================== -->
-    // <!-- vender redirect and insert function -->
+    // <!-- vendor redirect and insert function -->
     // <!-- ============================================================== -->
 
 	// redirect to page with check
-	public function AdminVenders(){
+	public function AdminVendors(){
 		if($this->session->userData('loginData')){
-			$this->load->view('add-venders');
+			$this->load->view('add-vendors');
 		}else{
 			redirect(base_url());
 		}
 	}
-	// add vender
-	public function AddAdminVenders(){
+	// add vendor
+	public function AddAdminVendors(){
 		$userName = $this->input->post('user-name');
 		$userEmail = $this->input->post('user-email');
 		$userPhone = $this->input->post('user-phone');
@@ -87,35 +87,52 @@ class Welcome extends MY_Controller
 		$query = $this->db->get('users');
 		if($query->num_rows()>0){
 			$this->session->set_flashdata('alreadyRegistered', 1);
-			redirect(base_url('venders'));
+			redirect(base_url('vendors'));
 		}
 		else{
-			$VenderUserData = array(
+			$VendorUserData = array(
 				'userName'=> $userName,
 				'userEmail'=> $userEmail,
 				'userPhone'=> $userPhone,
 				'userPass'=> $userPassword,
 				'userType'=> 3,
 			);
-			$this->db->insert('users' , $VenderUserData);
+			$this->generic->InsertData('users' , $VendorUserData);
 			$this->session->set_flashdata('successfullyRegistered', 1);
-			redirect(base_url('venders'));
+			redirect(base_url('vendors'));
 		}
 	}
-	// show vender data
-	public function AllAdminVenders(){
+	// show vendor data
+	public function AllAdminVendors(){
 		if($this->session->userData('loginData'))
 		{
-			$this->data['vendersList'] = $this->generic->GetData('users' , array('userType'=>3));
-			$this->load->view('venders-data', $this->data);
+			$this->data['vendorsList'] = $this->generic->GetData('users' , array('userType'=>3));
+			$this->load->view('vendors-data', $this->data);
 		}else{
 			redirect(base_url());
 		}
 	}
+	// deactive vendor 
 	public function deactivateVendor(){
-		$this->generic->Update('users',array('userID'=>$this->uri->segment(2)),array('userStatus'=>0));
+		$this->generic->Update('users',array('userID'=>$this->uri->segment(2)) , array('userStatus'=>0));
 		$this->session->set_flashdata('vendorDeactivated', 1);
-			redirect(base_url('all-vender'));
+		redirect(base_url('all-vendor'));
+	}
+	// active vendor
+	public function activateVendor(){
+		$this->generic->Update('users', array('userID'=>$this->uri->segment(2)) , array('userStatus'=>1));
+		$this->session->set_flashdata('vendorActivated', 1);
+		redirect(base_url('all-vendor'));
+	}
+	// delete vendor
+	public function deleteVendor(){
+		$this->generic->Delete('users', array('userID'=>$this->uri->segment(2)));
+		$this->session->set_flashdata('vendorDeleted' , 1);
+		redirect(base_url('all-vendor'));
+	}
+	// update vendor
+	public function updateVendor(){
+		$this->load->view('update-vendor');
 	}
 
 	// <!-- ============================================================== -->
@@ -152,7 +169,7 @@ class Welcome extends MY_Controller
 			'userPass'=> $userPassword,
 			'userType'=> 2,
 		);
-		$this->db->insert('users' , $customerUserData);
+		$this->generic->InsertData('users' , $customerUserData);
 		$this->session->set_flashdata('successfullyRegistered', 1);
 		redirect('customers');
 		}
@@ -166,8 +183,70 @@ class Welcome extends MY_Controller
 			redirect(base_url());
 		}
 	}
-	
-	
+	// deactive customer
+	public function deactivateCustomers(){
+		$this->generic->Update('users', array('userID'=>$this->uri->segment(2)) , array('userStatus' =>0));
+		$this->session->set_flashdata('customerDeactivated', 1);
+		redirect(base_url('all-customer'));
+	}
+	// active customer
+	public function activateCustomers(){
+		$this->generic->Update('users' , array('userID'=>$this->uri->segment(2)) , array('userStatus'=>1));
+		$this->session->set_flashdata('customerActivated', 1);
+		redirect(base_url('all-customer'));
+	}
+	// delete customer
+	public function deleteCustomers()
+	{
+		$this->generic->Delete('users' , array('userID'=>$this->uri->segment(2)));
+		$this->session->set_flashdata('customerDeleted' , 1);
+		redirect(base_url('all-customer'));
+	}
+	// update customer
+	public function updateCustomers(){
+		$this->load->view('update-vendor');
+	}
+
+
+
+	// <!-- ============================================================== -->
+    // <!-- category function -->
+    // <!-- ============================================================== -->
+	// redirect category page
+	public function AdminCategory(){
+		$this->data['categoryList'] = $this->generic->GetData('productcategory');
+		$this->load->view('category', $this->data);
+	}
+	// add category
+	public function AddAdminCategory(){
+		$catData = array(
+			'catName' => $this->input->post('cat-name'),
+		);
+		$this->generic->InsertData('productcategory' , $catData);
+		$this->session->set_flashdata('successfullyAdded',1);
+		redirect(base_url('category'));
+	}
+	//delete category
+	public function deleteCategory(){
+		$this->generic->Delete('productcategory' , array('catID'=> $this->uri->segment(2)));
+		$this->session->set_flashdata('categoryDeleted' , 1);
+		redirect(base_url('category'));
+	} 
+	// update category
+	public function updateCategory(){
+		
+	}
+
+	// <!-- ============================================================== -->
+    // <!-- product function -->
+    // <!-- ============================================================== -->
+	//redirect product page
+	public function AddAdminProduct(){
+		$this->load->view('add-products');
+	} 
+
+
+
 	// <!-- ============================================================== -->
     // <!-- logout function -->
     // <!-- ============================================================== -->

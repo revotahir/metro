@@ -20,7 +20,24 @@
         href="<?=base_url()?>assets/admin/vendor/datatables/css/select.bootstrap4.css">
     <link rel="stylesheet" type="text/css"
         href="<?=base_url()?>assets/admin/vendor/datatables/css/fixedHeader.bootstrap4.css">
-        <link rel="stylesheet" href="<?= base_url() ?>assets/toastr/toastr.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/toastr/toastr.min.css">
+    <style>
+    .space-gap {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        .fa-pencil-alt {
+            fill: green;
+            color: green;
+        }
+
+        .fa-trash-alt {
+            fill: #ef172c;
+            color: #ef172c;
+        }
+    }
+    </style>
 </head>
 
 <body>
@@ -42,14 +59,14 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">All Venders</h2>
+                            <h2 class="pageheader-title">All Vendors</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="<?=base_url('dashboard')?>"
                                                 class="breadcrumb-link">Dashboard</a>
                                         </li>
-                                        <li class="breadcrumb-item active" aria-current="page">All Venders</li>
+                                        <li class="breadcrumb-item active" aria-current="page">All Vendors</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -67,7 +84,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <Div class="card-header">
-                                <h5 class="mb-0">Venders Data</h5>
+                                <h5 class="mb-0">Vendors Data</h5>
                             </Div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -76,19 +93,19 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Vender Name</th>
-                                                <th>Vender Email</th>
-                                                <th>Vender Phone</th>
-                                                <th>Vender Password</th>
+                                                <th>Vendor Name</th>
+                                                <th>Vendor Email</th>
+                                                <th>Vendor Phone</th>
+                                                <th>Vendor Password</th>
                                                 <th>Account Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            if($vendersList){
+                                            if($vendorsList){
                                                 $sr=1;
-                                                foreach($vendersList as $row){
+                                                foreach($vendorsList as $row){
                                             ?>
                                             <tr>
                                                 <td><?=$sr.'.'?></td>
@@ -99,24 +116,50 @@
                                                 <td><?php 
                                                 if($row['userStatus']==1){
                                                 ?>
-                                                <span class="text-success">Active</span>
-                                                <?php   
+                                                    <span class="text-success">Active</span>
+                                                    <?php   
                                                 }else{
                                                     ?>
-                                                     <span class="text-danger">Inactive</span>               
+                                                    <span class="text-danger">Inactive</span>
                                                     <?php } ?>
                                                 </td>
                                                 <?php
                                                 if($row['userStatus']==1){
                                                 ?>
-                                                <td>
-                                                    <a href="<?=base_url('deactivate-vendor/').$row['userID']?>" onclick="return confirmDeactivate()" class="btn btn-danger">Deactivate</a>
+                                                <td class="space-gap">
+                                                    <a href="<?=base_url('deactivate-vendor/').$row['userID']?>"
+                                                        onclick="return confirmDeactivate()"
+                                                        class="btn btn-danger">Deactivate</a>
+
+                                                    <!-- edit -->
+                                                    <a href="<?=base_url('edit-vendor/').$row['userID']?>">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <!-- delete -->
+                                                    <a href="<?=base_url('delete-vendor/').$row['userID']?>"
+                                                        onclick="return confirmDelete()">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+
                                                 </td>
                                                 <?php    
                                             }else{
                                                   ?>
-                                                <td>
-                                                    <a href="<?=base_url('activate-vendor/').$row['userID']?>" class="btn btn-primary">Activate</a>
+                                                <td class="space-gap">
+                                                    <a href="<?=base_url('activate-vendor/').$row['userID']?>"
+                                                        onclick="return confirmActivate()"
+                                                        class="btn btn-primary">Activate</a>
+
+                                                    <!-- edit -->
+                                                    <a href="<?=base_url('edit-vendor/').$row['userID']?>">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <!-- delete -->
+                                                    <a href="<?=base_url('delete-vendor/').$row['userID']?>"
+                                                        onclick="return confirmDelete()">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+
                                                 </td>
                                                 <?php 
                                                 }
@@ -141,10 +184,10 @@
                                         <tfoot>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Vender Name</th>
-                                                <th>Vender Email</th>
-                                                <th>Vender Phone</th>
-                                                <th>Vender Password</th>
+                                                <th>Vendor Name</th>
+                                                <th>Vendor Email</th>
+                                                <th>Vendor Phone</th>
+                                                <th>Vendor Password</th>
                                                 <th>Account Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -158,6 +201,7 @@
                     <!-- end data table  -->
                     <!-- ============================================================== -->
                 </div>
+
             </div>
         </div>
     </div>
@@ -185,6 +229,7 @@
     <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
     <script src="<?= base_url() ?>assets/toastr/toastr.min.js"></script>
+    <!-- deactive -->
     <?php
     if ($this->session->flashdata('vendorDeactivated') != '') {
     ?>
@@ -199,14 +244,60 @@
     <?php
     }
     ?>
+    <!-- active -->
+    <?php
+    if ($this->session->flashdata('vendorActivated') != '') {
+    ?>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Vendor Account Activated!');
+    </script>
+    <?php
+    }
+    ?>
+    <!-- delete -->
+    <?php
+    if ($this->session->flashdata('vendorDeleted') != '') {
+    ?>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Vendor Account Deleted!');
+    </script>
+    <?php
+    }
+    ?>
     <script>
-        function confirmDeactivate(){
-            if(confirm('Are you sure you want to deactivate vendor acount?')){
-                return true;
-            }else{
-                return false;
-            }
+    function confirmDeactivate() {
+        if (confirm('Are you sure you want to deactivate vendor account?')) {
+            return true;
+        } else {
+            return false;
         }
+    }
+
+    function confirmActivate() {
+        if (confirm('Are you sure you want to activate vendor account?')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function confirmDelete() {
+        if (confirm('Are you sure you want to delete vendor account')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     </script>
 
 </body>
