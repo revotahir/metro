@@ -62,25 +62,46 @@
                             <h5 class="card-header">Products Form</h5>
                             <div class="card-body">
                                 <form class="needs-validation" novalidate method="post"
-                                    action="<?=base_url('add-vendor')?>">
+                                    action="<?=base_url('add-product-data')?>" enctype="multipart/form-data">
                                     <div class="row">
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                            <label for="user-name">Vendor name</label>
-                                            <input type="text" class="form-control" id="user-name" name="user-name"
-                                                placeholder="Enter Vendor" required>
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Please enter a user name.
-                                            </div>
+                                            <label for="user-name">Select Vendor </label>
+                                            <select name="vendorID" id="vendorID" class="form-control">
+                                                <option value="">Select Vendor</option>
+                                                <?php 
+                                                    if($vendors){
+                                                        foreach($vendors as $row){
+                                                ?>
+                                                <option value="<?=$row['userID']?>"><?=$row['userName']?></option>
+                                                <?php 
+                                                        }
+                                                    }
+                                                    ?>
+                                            </select>
+                                           
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                            <label for="user-name">Product Category</label>
+                                            <select name="catID" id="catID" class="form-control">
+                                                <option value="">Select Category</option>
+                                                <?php 
+                                                    if($categories){
+                                                        foreach($categories as $row){
+                                                ?>
+                                                <option value="<?=$row['catID']?>"><?=$row['catName']?></option>
+                                                <?php 
+                                                        }
+                                                    }
+                                                    ?>
+                                            </select>
+                                           
                                         </div>
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-email">Vendor Email</label>
-                                            <input type="email" class="form-control" id="user-email" name="user-email"
-                                                placeholder="Vendor Email" required>
+                                            <label for="user-email">Product Name</label>
+                                            <input type="text" class="form-control" id="product-name" name="product-name"
+                                                placeholder="Product Name" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -90,9 +111,9 @@
                                         </div>
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-phone">Vendor Phone</label>
-                                            <input type="tel" class="form-control" id="user-phone" name="user-phone"
-                                                placeholder="Vendor Phone" required>
+                                            <label for="user-phone">Product Price</label>
+                                            <input type="number" class="form-control" id="price" name="price"
+                                                placeholder="Product Price" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -102,21 +123,30 @@
                                         </div>
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-password">Vendor Password</label>
-                                            <input type="text" class="form-control" id="user-password"
-                                                name="user-password" placeholder="Vendor Password" required>
+                                            <label for="user-password">Product Description</label>
+                                            <textarea name="Description" id="Description" class="form-control"></textarea>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
                                             <div class="invalid-feedback">
                                                 Please enter a user password.
                                             </div>
-                                            <button class="btn btn-dark m-t-10" type="button">Generate
-                                                Password</button>
+                                           
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
+                                            <label for="user-password">Product Image</label>
+                                            <input type="file" name="productImage" id="productImage" class="form-control">
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a user password.
+                                            </div>
+                                           
                                         </div>
 
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <button class="btn btn-primary" type="submit">Submit form</button>
+                                            <button class="btn btn-primary" type="submit">Add Product</button>
                                         </div>
                                     </div>
                                 </form>
@@ -143,7 +173,7 @@
     <script src="<?= base_url() ?>assets/toastr/toastr.min.js"></script>
 
     <?php
-    if ($this->session->flashdata('alreadyRegistered') != '') {
+    if ($this->session->flashdata('uploadError') != '') {
     ?>
     <script type="text/javascript">
     toastr.options = {
@@ -151,7 +181,22 @@
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    toastr.error('Email Already Registered!');
+    toastr.error('<?= $this->session->flashdata('uploadError'); ?>');
+    </script>
+    <?php
+    }
+    ?>
+
+    <?php
+    if ($this->session->flashdata('productUploaded') != '') {
+    ?>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Product Added!');
     </script>
     <?php
     }

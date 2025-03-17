@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="<?=base_url()?>assets/images/favicon.png" type="image/png" />
-    <title>Add Venders</title>
+    <title>Update Venders</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?=base_url()?>assets/admin/vendor/bootstrap/css/bootstrap.min.css">
     <link href="<?=base_url()?>assets/admin/vendor/fonts/circular-std/style.css" rel="stylesheet">
@@ -35,7 +35,7 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Add Venders</h2>
+                            <h2 class="pageheader-title">Update Venders</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
@@ -43,6 +43,7 @@
                                                 class="breadcrumb-link">Dashboard</a>
                                         </li>
                                         <li class="breadcrumb-item active" aria-current="page">Venders</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Update Venders</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -62,12 +63,12 @@
                             <h5 class="card-header">Vender Form</h5>
                             <div class="card-body">
                                 <form class="needs-validation" novalidate method="post"
-                                    action="<?=base_url('add-vender')?>">
+                                    action="<?=base_url('update-vender-data/').$vendor[0]['userID']?>">
                                     <div class="row">
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                             <label for="user-name">Vendor name</label>
-                                            <input type="text" class="form-control" id="user-name" name="user-name"
+                                            <input type="text" class="form-control" value="<?=$vendor[0]['userName']?>" id="user-name" name="user-name"
                                                 placeholder="Enter Vendor" required>
                                             <div class="valid-feedback">
                                                 Looks good!
@@ -79,7 +80,7 @@
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="user-email">Vendor Email</label>
-                                            <input type="email" class="form-control" id="user-email" name="user-email"
+                                            <input type="email" class="form-control" value="<?=$vendor[0]['userEmail']?>" id="user-email" name="user-email"
                                                 placeholder="Vendor Email" required>
                                             <div class="valid-feedback">
                                                 Looks good!
@@ -91,7 +92,7 @@
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="user-phone">Vendor Phone</label>
-                                            <input type="tel" class="form-control" id="user-phone" name="user-phone"
+                                            <input type="tel" class="form-control" id="user-phone" value="<?=$vendor[0]['userPhone']?>" name="user-phone"
                                                 placeholder="Vendor Phone" required>
                                             <div class="valid-feedback">
                                                 Looks good!
@@ -104,7 +105,7 @@
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="user-password">Vendor Password</label>
                                             <input type="text" class="form-control" id="user-password"
-                                                name="user-password" placeholder="Vendor Password" required>
+                                                name="user-password" placeholder="Vendor Password" value="<?=$vendor[0]['userPass']?>" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -116,7 +117,7 @@
                                         </div>
 
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <button class="btn btn-primary" type="submit">Submit form</button>
+                                            <button class="btn btn-primary" type="submit">Update</button>
                                         </div>
                                     </div>
                                 </form>

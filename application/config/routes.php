@@ -63,6 +63,7 @@ $route['deactivate-vendor/:any']= 'welcome/deactivateVendor';
 $route['activate-vendor/:any']= 'welcome/activateVendor';
 $route['delete-vendor/:any']= 'welcome/deleteVendor';
 $route['edit-vendor/:any']= 'welcome/updateVendor';
+$route['update-vender-data/:any']= 'welcome/updateVendorData';
 
 
 // customers route
@@ -84,6 +85,7 @@ $route['edit-category/:any'] = 'welcome/updateCategory';
 
 // product route
 $route['add-new-product'] = 'welcome/AddAdminProduct';
+$route['add-product-data'] = 'welcome/AddAdminProductData';
 
 
 

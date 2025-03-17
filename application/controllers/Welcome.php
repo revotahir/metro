@@ -132,7 +132,23 @@ class Welcome extends MY_Controller
 	}
 	// update vendor
 	public function updateVendor(){
-		$this->load->view('update-vendor');
+		$this->data['vendor']=$this->generic->GetData('users',array('userID'=>$this->uri->segment(2)));
+		$this->load->view('update-vendor',$this->data);
+	}
+	public function updateVendorData(){
+		$userName = $this->input->post('user-name');
+		$userEmail = $this->input->post('user-email');
+		$userPhone = $this->input->post('user-phone');
+		$userPassword = $this->input->post('user-password');
+		$VendorUserData = array(
+			'userName'=> $userName,
+			'userEmail'=> $userEmail,
+			'userPhone'=> $userPhone,
+			'userPass'=> $userPassword,
+		);
+		$this->generic->Update('users',array('userID'=>$this->uri->segment(2)),$VendorUserData);
+		$this->session->set_flashdata('VendorUpdated' , 1);
+		redirect(base_url('all-vendor'));
 	}
 
 	// <!-- ============================================================== -->
@@ -242,9 +258,45 @@ class Welcome extends MY_Controller
     // <!-- ============================================================== -->
 	//redirect product page
 	public function AddAdminProduct(){
-		$this->load->view('add-products');
+		$this->data['vendors']=$this->generic->GetData('users',array('userType'=>3,'userStatus'=>1));
+		$this->data['categories']=$this->generic->GetData('productcategory');
+		$this->load->view('products/add-products',$this->data);
 	} 
+public function AddAdminProductData(){
+	 // Handle image upload
+	 $config['upload_path'] = './assets/productimages/';
+	 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+	 $config['max_size'] = 2048; // 2MB max
+	 $config['encrypt_name'] = TRUE; // Encrypt the file name
 
+	 $this->load->library('upload', $config);
+
+	 if (!$this->upload->do_upload('productImage')) {
+		 // If upload fails, show error
+		  $error = $this->upload->display_errors();
+		 $this->session->set_flashdata('uploadError' , $error);
+		 redirect(base_url('add-new-product'));
+	 } else {
+		 // If upload is successful, get the file data
+		 $upload_data = $this->upload->data();
+
+		 // Prepare data for database insertion
+		 $data = array(
+			 'userID' => $this->input->post('vendorID'),
+			 'catID' => $this->input->post('catID'),
+			 'productName' => $this->input->post('product-name'),
+			 'productPrice' => $this->input->post('price'),
+			 'productDesp' => $this->input->post('Description'),
+			 'productImage' => $upload_data['file_name']
+		 );
+
+		 // Insert data into the database
+		$this->generic->InsertData('products',$data);
+		$this->session->set_flashdata('productUploaded' , 1);
+		 // Redirect or show success message
+		 redirect(base_url('add-new-product')); // Replace with your success route
+	 }
+}
 
 
 	// <!-- ============================================================== -->

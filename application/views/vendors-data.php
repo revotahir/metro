@@ -123,33 +123,23 @@
                                                     <span class="text-danger">Inactive</span>
                                                     <?php } ?>
                                                 </td>
+                                              
+                                                <td class="space-gap">
                                                 <?php
                                                 if($row['userStatus']==1){
                                                 ?>
-                                                <td class="space-gap">
                                                     <a href="<?=base_url('deactivate-vendor/').$row['userID']?>"
                                                         onclick="return confirmDeactivate()"
                                                         class="btn btn-danger">Deactivate</a>
-
-                                                    <!-- edit -->
-                                                    <a href="<?=base_url('edit-vendor/').$row['userID']?>">
-                                                        <i class="fas fa-pencil-alt"></i>
-                                                    </a>
-                                                    <!-- delete -->
-                                                    <a href="<?=base_url('delete-vendor/').$row['userID']?>"
-                                                        onclick="return confirmDelete()">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </a>
-
-                                                </td>
-                                                <?php    
+                                                        <?php    
                                             }else{
                                                   ?>
-                                                <td class="space-gap">
-                                                    <a href="<?=base_url('activate-vendor/').$row['userID']?>"
+                                                  <a href="<?=base_url('activate-vendor/').$row['userID']?>"
                                                         onclick="return confirmActivate()"
-                                                        class="btn btn-primary">Activate</a>
-
+                                                        class="btn btn-success">Activate</a>
+                                                        <?php 
+                                                }
+                                                ?>
                                                     <!-- edit -->
                                                     <a href="<?=base_url('edit-vendor/').$row['userID']?>">
                                                         <i class="fas fa-pencil-alt"></i>
@@ -161,9 +151,9 @@
                                                     </a>
 
                                                 </td>
-                                                <?php 
-                                                }
-                                                ?>
+                                                
+                                               
+                                               
                                             </tr>
                                             <?php   
                                             $sr++;
@@ -270,6 +260,20 @@
         "hideMethod": "fadeOut"
     }
     toastr.success('Vendor Account Deleted!');
+    </script>
+    <?php
+    }
+    ?>
+    <?php
+    if ($this->session->flashdata('VendorUpdated') != '') {
+    ?>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Vendor Account Updated!');
     </script>
     <?php
     }
