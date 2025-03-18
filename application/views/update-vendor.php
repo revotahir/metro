@@ -60,7 +60,7 @@
                     <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Vender Form</h5>
+                            <h5 class="card-header">Vender Update Form</h5>
                             <div class="card-body">
                                 <form class="needs-validation" novalidate method="post"
                                     action="<?=base_url('update-vender-data/').$vendor[0]['userID']?>">
@@ -68,8 +68,8 @@
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                             <label for="user-name">Vendor name</label>
-                                            <input type="text" class="form-control" value="<?=$vendor[0]['userName']?>" id="user-name" name="user-name"
-                                                placeholder="Enter Vendor" required>
+                                            <input type="text" class="form-control" value="<?=$vendor[0]['userName']?>"
+                                                id="user-name" name="user-name" placeholder="Enter Vendor" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -80,7 +80,8 @@
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="user-email">Vendor Email</label>
-                                            <input type="email" class="form-control" value="<?=$vendor[0]['userEmail']?>" id="user-email" name="user-email"
+                                            <input type="email" class="form-control"
+                                                value="<?=$vendor[0]['userEmail']?>" id="user-email" name="user-email"
                                                 placeholder="Vendor Email" required>
                                             <div class="valid-feedback">
                                                 Looks good!
@@ -92,7 +93,8 @@
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="user-phone">Vendor Phone</label>
-                                            <input type="tel" class="form-control" id="user-phone" value="<?=$vendor[0]['userPhone']?>" name="user-phone"
+                                            <input type="tel" class="form-control" id="user-phone"
+                                                value="<?=$vendor[0]['userPhone']?>" name="user-phone"
                                                 placeholder="Vendor Phone" required>
                                             <div class="valid-feedback">
                                                 Looks good!
@@ -105,7 +107,8 @@
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="user-password">Vendor Password</label>
                                             <input type="text" class="form-control" id="user-password"
-                                                name="user-password" placeholder="Vendor Password" value="<?=$vendor[0]['userPass']?>" required>
+                                                name="user-password" placeholder="Vendor Password"
+                                                value="<?=$vendor[0]['userPass']?>" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>

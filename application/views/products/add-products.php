@@ -65,9 +65,9 @@
                                     action="<?=base_url('add-product-data')?>" enctype="multipart/form-data">
                                     <div class="row">
                                         <!-- field  -->
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                            <label for="user-name">Select Vendor </label>
-                                            <select name="vendorID" id="vendorID" class="form-control">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
+                                            <label for="vendorID">Select Vendor</label>
+                                            <select name="vendorID" id="vendorID" required class="form-control">
                                                 <option value="">Select Vendor</option>
                                                 <?php 
                                                     if($vendors){
@@ -79,11 +79,17 @@
                                                     }
                                                     ?>
                                             </select>
-                                           
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a select vendor.
+                                            </div>
+
                                         </div>
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                            <label for="user-name">Product Category</label>
-                                            <select name="catID" id="catID" class="form-control">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
+                                            <label for="catID">Product Category</label>
+                                            <select required name="catID" id="catID" class="form-control">
                                                 <option value="">Select Category</option>
                                                 <?php 
                                                     if($categories){
@@ -95,57 +101,65 @@
                                                     }
                                                     ?>
                                             </select>
-                                           
-                                        </div>
-                                        <!-- field  -->
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-email">Product Name</label>
-                                            <input type="text" class="form-control" id="product-name" name="product-name"
-                                                placeholder="Product Name" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
                                             <div class="invalid-feedback">
-                                                Please enter a user email.
+                                                Please enter a select category.
+                                            </div>
+
+                                        </div>
+                                        <!-- field  -->
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
+                                            <label for="product-name">Product Name</label>
+                                            <input type="text" class="form-control" id="product-name"
+                                                name="product-name" placeholder="Product Name" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a product name.
                                             </div>
                                         </div>
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-phone">Product Price</label>
+                                            <label for="price">Product Price</label>
                                             <input type="number" class="form-control" id="price" name="price"
                                                 placeholder="Product Price" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
                                             <div class="invalid-feedback">
-                                                Please enter a user phone.
+                                                Please enter a product price.
                                             </div>
                                         </div>
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-password">Product Description</label>
-                                            <textarea name="Description" id="Description" class="form-control"></textarea>
+                                            <label for="Description">Product Description</label>
+                                            <textarea name="Description" id="Description" class="form-control"
+                                                required></textarea>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
                                             <div class="invalid-feedback">
-                                                Please enter a user password.
+                                                Please enter a product description.
                                             </div>
-                                           
+
                                         </div>
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="user-password">Product Image</label>
-                                            <input type="file" name="productImage" id="productImage" class="form-control">
+                                            <label for="productImage">Product Image</label>
+                                            <input type="file" name="productImage" required id="productImage"
+                                                class="form-control">
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
                                             <div class="invalid-feedback">
-                                                Please enter a user password.
+                                                Please add a product image.
                                             </div>
-                                           
+
                                         </div>
 
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
                                             <button class="btn btn-primary" type="submit">Add Product</button>
                                         </div>
                                     </div>

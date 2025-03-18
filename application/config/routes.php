@@ -74,12 +74,14 @@ $route['deactivate-customer/:any'] = 'welcome/deactivateCustomers';
 $route['activate-customer/:any'] = 'welcome/activateCustomers'; 
 $route['delete-customer/:any'] = 'welcome/deleteCustomers'; 
 $route['edit-customer/:any'] = 'welcome/updateCustomers'; 
+$route['update-customer-data/:any'] = 'welcome/updateCustomerData'; 
 
 // category route
 $route['category'] = 'welcome/AdminCategory';
 $route['add-category'] = 'welcome/AddAdminCategory';
 $route['delete-category/:any'] = 'welcome/deleteCategory';
 $route['edit-category/:any'] = 'welcome/updateCategory';
+$route['update-category-data/:any'] = 'welcome/updateCategoryData';
 
 
 

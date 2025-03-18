@@ -220,7 +220,23 @@ class Welcome extends MY_Controller
 	}
 	// update customer
 	public function updateCustomers(){
-		$this->load->view('update-vendor');
+		$this->data['customer'] = $this->generic->GetData('users' , array('userID'=>$this->uri->segment(2)));
+		$this->load->view('update-customer', $this->data);
+	}
+	public function updateCustomerData(){
+		$userName = $this->input->post('cstm-user-name');
+		$userEmail = $this->input->post('cstm-user-email');
+		$userPhone = $this->input->post('cstm-user-phone');
+		$userPassword = $this->input->post('cstm-user-password');
+		$customerUserData = array(
+			'userName'=> $userName,
+			'userEmail'=> $userEmail,
+			'userPhone'=> $userPhone,
+			'userPass'=> $userPassword,
+		);
+		$this->generic->Update('users' , array('userID'=>$this->uri->segment(2)) , $customerUserData);
+		$this->session->set_flashdata('CustomerUpdated' , 1);
+		redirect(base_url('all-customer'));
 	}
 
 
@@ -250,8 +266,18 @@ class Welcome extends MY_Controller
 	} 
 	// update category
 	public function updateCategory(){
-		
+		$this->data['category'] = $this->generic->GetData('productcategory' , array('catID'=>$this->uri->segment(2)));
+		$this->load->view('update-category' , $this->data);
 	}
+	public function updateCategoryData(){
+		$catData = array(
+			'catName' => $this->input->post('cat-name'),
+		);
+		$this->generic->Update('productcategory' , array('catID'=>$this->uri->segment(2)) , $catData);
+		$this->session->set_flashdata('CategoryUpdated' , 1);
+		redirect(base_url('category'));
+	}
+
 
 	// <!-- ============================================================== -->
     // <!-- product function -->
