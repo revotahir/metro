@@ -236,7 +236,7 @@
     ?>
     <script>
     function confirmDelete() {
-        if (confirm('Are you sure you want to delete category?')) {
+        if (confirm('Are you sure you want to delete category? !!All Products will be Deleted with this category!!')) {
             return true;
         } else {
             return false;

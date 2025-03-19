@@ -82,12 +82,13 @@ class Generic_model extends CI_Model
         }
     }
 
-    function getPructsList($where = false)
+    function GetProductList($where = false)
     {
         $this->db->select('*');
-        $this->db->from('ipr_product_detail as pd');
-        $this->db->join('ipr_order_detail  as od ', 'pd.orderID=od.orderID', 'inner');
-        $this->db->order_by('pd.productID', 'DESC');
+        $this->db->from('products as p');
+        $this->db->join('users  as u', 'p.userID=u.userID', 'inner');
+        $this->db->join('productcategory  as pc', 'p.catID=pc.catID', 'inner');
+        $this->db->order_by('p.productID', 'DESC');
         if ($where) {
             $this->db->where($where);
         }

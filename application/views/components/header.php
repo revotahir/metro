@@ -99,7 +99,7 @@
                                         <a class="nav-link" href="<?=base_url('add-new-product')?>">Add new Product</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="<?=base_url('all-customer')?>">Manage Customers</a>
+                                        <a class="nav-link" href="<?=base_url('manage-Products')?>">Manage Products</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="<?=base_url('category')?>">Category</a>

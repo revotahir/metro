@@ -88,6 +88,12 @@ $route['update-category-data/:any'] = 'welcome/updateCategoryData';
 // product route
 $route['add-new-product'] = 'welcome/AddAdminProduct';
 $route['add-product-data'] = 'welcome/AddAdminProductData';
+$route['manage-Products'] = 'welcome/manageProducts';
+$route['deactivate-product/:any'] = 'welcome/DeactivateProduct';
+$route['activate-product/:any'] = 'welcome/activateProduct';
+$route['delete-product/:any'] = 'welcome/DeleteProduct';
+$route['edit-product/:any'] = 'welcome/EditProduct';
+$route['update-product-data/:any'] = 'welcome/EditProductData';
 
 
 
