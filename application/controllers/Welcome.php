@@ -410,6 +410,15 @@ class Welcome extends MY_Controller
 		redirect(base_url('manage-Products'));
 	}
 
+	//assign product
+	public function assignProductView(){
+		$this->data['customers']=$this->generic->GetData('users',array('userType'=>2,'userStatus'=>1));
+		if(isset($_GET['customerID'])){
+			$this->data['products']=$this->generic->GetUnassignedProducts($_GET['customerID']);
+		}
+		$this->load->view('products/assignProduct',$this->data);
+	}
+
 
 	// <!-- ============================================================== -->
 	// <!-- logout function -->

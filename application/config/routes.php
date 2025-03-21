@@ -74,7 +74,9 @@ $route['deactivate-customer/:any'] = 'welcome/deactivateCustomers';
 $route['activate-customer/:any'] = 'welcome/activateCustomers'; 
 $route['delete-customer/:any'] = 'welcome/deleteCustomers'; 
 $route['edit-customer/:any'] = 'welcome/updateCustomers'; 
-$route['update-customer-data/:any'] = 'welcome/updateCustomerData'; 
+$route['update-customer-data/:any'] = 'welcome/updateCustomerData';
+//--Customer product assign 
+$route['assign-product']='welcome/assignProductView'; 
 
 // category route
 $route['category'] = 'welcome/AdminCategory';
