@@ -77,6 +77,7 @@ $route['edit-customer/:any'] = 'welcome/updateCustomers';
 $route['update-customer-data/:any'] = 'welcome/updateCustomerData';
 //--Customer product assign 
 $route['assign-product']='welcome/assignProductView'; 
+$route['assign-price-tocustomer']='welcome/assignProductDataAjax'; //ajax call for price update 
 
 // category route
 $route['category'] = 'welcome/AdminCategory';

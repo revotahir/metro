@@ -138,7 +138,7 @@
                 <!-- ============================================================== -->
                 <!-- end pageheader -->
                 <!-- ============================================================== -->
-                
+
                 <div class="row">
                     <!-- ============================================================== -->
                     <!-- validation form -->
@@ -147,23 +147,30 @@
                         <div class="card">
                             <h5 class="card-header">Select Customer</h5>
                             <div class="card-body">
-                                <form class="needs-validation" novalidate method="get"
-                                    >
+                                <form class="needs-validation" novalidate method="get">
                                     <div class="row">
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="customerID">Select Customer</label>
                                             <select name="customerID" id="customerID" required class="form-control">
                                                 <option value="">Select Customer</option>
-                                                <?php 
-                                                    if($customers){
-                                                        foreach($customers as $row){
+                                                <?php
+                                                if ($customers) {
+                                                    foreach ($customers as $row) {
                                                 ?>
-                                                <option value="<?=$row['userID']?>"><?=$row['userName']?></option>
-                                                <?php 
-                                                        }
+                                                        <option
+                                                            <?php
+                                                            if (isset($_GET['customerID'])) {
+                                                                if ($row['userID'] == $_GET['customerID']) {
+                                                                    echo 'selected';
+                                                                }
+                                                            }
+                                                            ?>
+                                                            value="<?= $row['userID'] ?>"><?= $row['userName'] ?></option>
+                                                <?php
                                                     }
-                                                    ?>
+                                                }
+                                                ?>
                                             </select>
                                             <div class="valid-feedback">
                                                 Looks good!
@@ -176,6 +183,13 @@
 
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
                                             <button class="btn btn-primary" type="submit">Select</button>
+                                            <?php
+                                            if (isset($_GET['customerID'])) {
+                                            ?>
+                                                <a href="<?= base_url('assign-product') ?>" class="ml-2">
+                                                    Clear Select
+                                                </a>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 </form>
@@ -217,22 +231,22 @@
                                                 $sr = 1;
                                                 foreach ($products as $row) {
                                             ?>
-                                                    <tr id="producttr_<?=$row['productID']?>">
+                                                    <tr id="producttr_<?= $row['productID'] ?>">
                                                         <td><?= $sr . '.' ?></td>
                                                         <td><?= $row['userName'] ?></td>
                                                         <td><?= $row['catName'] ?></td>
-                                                      
+
                                                         <td><?= $row['productName'] ?></td>
                                                         <td><?= $row['productDesp'] ?></td>
                                                         <td>Vendor Price: $<?= $row['productPrice'] ?>
-                                                        <form action="">
-                                                            <input type="number" name="newPrice_<?=$row['productID']?>" class="form-control" placeholder="Enter Customer Price" id="newPrice_<?=$row['productID']?>">
-                                                        </form>
-                                                    </td>
-                                                        <td>
-                                                            <a href="javascript:AssignAjax(<?=$row['productID']?>)" class="btn btn-success">Assign</a>
+                                                            <form id="myForm">
+                                                                <input type="number" name="newPrice_<?= $row['productID'] ?>" class="form-control" placeholder="Enter Customer Price" id="newPrice_<?= $row['productID'] ?>">
+                                                            </form>
                                                         </td>
-                                                        
+                                                        <td>
+                                                            <a href="javascript:AssignAjax(<?= $row['productID'] ?>,<?= $row['productPrice'] ?>,<?= $_GET['customerID'] ?>)" class="btn btn-success">Assign</a>
+                                                        </td>
+
                                                     </tr>
                                                 <?php
                                                     $sr++;
@@ -252,7 +266,7 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                            <th>#</th>
+                                                <th>#</th>
                                                 <th>Vendor</th>
                                                 <th>Category </th>
                                                 <th>Product</th>
@@ -297,35 +311,58 @@
     <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
     <script src="<?= base_url() ?>assets/toastr/toastr.min.js"></script>
+
     <script>
-        function AssignAjax(id){
-            var newPrice=$('#newPrice_'+id).val();
-            alert(newPrice);
-             // Make an AJAX POST request
-            //  $.ajax({
-            //         url: '<?php echo site_url("ProductController/fetchUnassignedProducts"); ?>', // URL to the controller method
-            //         type: 'POST', // HTTP method
-            //         data: { customerID: customerID }, // Data to send
-            //         dataType: 'json', // Expected response type
-            //         success: function(response) {
-            //             // Handle the response
-            //             if (response.products && response.products.length > 0) {
-            //                 var html = '<ul>';
-            //                 $.each(response.products, function(index, product) {
-            //                     html += '<li>' + product.name + ' - $' + product.price + '</li>';
-            //                 });
-            //                 html += '</ul>';
-            //                 $('#productList').html(html); // Display the products
-            //             } else {
-            //                 $('#productList').html('<p>No unassigned products found.</p>');
-            //             }
-            //         },
-            //         error: function(xhr, status, error) {
-            //             // Handle errors
-            //             console.error('AJAX Error: ' + status + error);
-            //             $('#productList').html('<p>Error fetching products.</p>');
-            //         }
-            //     });
+        document.getElementById('myForm').addEventListener('keypress', function(event) {
+            // Check if the pressed key is Enter (key code 13)
+            if (event.key === 'Enter') {
+                // Prevent the default form submission
+                event.preventDefault();
+
+
+            }
+        });
+
+        function AssignAjax(productid, vendorPrice, customerID) {
+            var newPrice = $('#newPrice_' + productid).val();
+            if (newPrice <= vendorPrice) {
+                toastr.options = {
+                    "closeButton": true,
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr.error('Vendor Price is greater then customer price!');
+                $('#newPrice_' + productid).css('border', '1px solid red');
+               
+            } else {
+                //  Make an AJAX POST request
+                $.ajax({
+                    url: '<?= base_url('assign-price-tocustomer') ?>', // URL to the controller method
+                    type: 'POST', // HTTP method
+                    data: {
+                        customerID: customerID,
+                        productID: productid,
+                        newPRice: newPrice
+                    }, // Data to send
+
+                    success: function(response) {
+                        if (response == 'productAssign') {
+                            toastr.options = {
+                                "closeButton": true,
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            toastr.success('Product Assigned!');
+                            $('#producttr_' + productid).fadeOut();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        console.error('AJAX Error: ' + status + error);
+                    }
+                });
+            }
+
         }
     </script>
     <!-- deactive -->

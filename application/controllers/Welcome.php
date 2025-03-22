@@ -415,8 +415,20 @@ class Welcome extends MY_Controller
 		$this->data['customers']=$this->generic->GetData('users',array('userType'=>2,'userStatus'=>1));
 		if(isset($_GET['customerID'])){
 			$this->data['products']=$this->generic->GetUnassignedProducts($_GET['customerID']);
+		}else{
+			$this->data['products']=false;
 		}
 		$this->load->view('products/assignProduct',$this->data);
+	}
+	// assign product ajax
+	public function assignProductDataAjax(){
+		$data=array(
+			'customerID'=>$this->input->post('customerID'),
+			'productID'=>$this->input->post('productID'),
+			'newPrice'=>$this->input->post('newPRice'),
+		);
+		$this->generic->InsertData('assignproduct',$data);
+		echo 'productAssign';
 	}
 
 
