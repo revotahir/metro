@@ -450,7 +450,7 @@
             }
         }
     </script>
-    <script>
+    <!-- <script>
         // Get the elements
         const lightbox = document.getElementById("lightbox");
         const lightboxImage = document.getElementById("lightboxImage");
@@ -478,7 +478,7 @@
                 // Remove 'closing' class after the transition ends
             }, 500); // Timeout duration matches the transition time (0.5s)
         };
-    </script>
+    </script> -->
 </body>
 
 </html>

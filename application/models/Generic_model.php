@@ -101,20 +101,16 @@ class Generic_model extends CI_Model
         }
     }
     public function GetUnassignedProducts($customerID) {
-        // Write the SQL query
-        $sql = "
-            SELECT p.*,v.*,pc.* FROM products p 
-            LEFT JOIN assignProduct ap ON p.productID = ap.productID AND ap.customerID = 8 
-            INNER JOIN productcategory as pc on p.catID=pc.catID 
-            INNER JOIN users as v on p.userID=v.userID 
-            WHERE ap.productID IS NULL AND p.productStatus=1; 
-        ";
+        $this->db->select('p.*, v.*, pc.*');
+        $this->db->from('products p');
+        $this->db->join('productcategory pc', 'p.catID = pc.catID', 'inner');
+        $this->db->join('users v', 'p.userID = v.userID', 'inner');
+        $this->db->join('assignProduct ap', 'p.productID = ap.productID AND ap.customerID = ' . $customerID, 'left');
+        $this->db->where('p.productStatus', 1); // Only active products
+        $this->db->where('ap.productID IS NULL'); // Exclude products assigned to the specified customer
+        $query = $this->db->get();
 
-        // Execute the query with the customerID parameter
-        $query = $this->db->query($sql, array($customerID));
-
-        // Return the result as an array of objects
-        return $query->result_array();
+        return $query->result_array(); // Return results as an array
     }
 
 
