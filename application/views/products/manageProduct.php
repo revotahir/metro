@@ -23,81 +23,81 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/toastr/toastr.min.css">
 
     <style>
-        .space-gap {
-            /* display: flex;
+    .space-gap {
+        /* display: flex;
         align-items: center;
         gap: 20px; */
 
-            .fa-pencil-alt {
-                fill: green;
-                color: green;
-            }
-
-            .fa-trash-alt {
-                fill: #ef172c;
-                color: #ef172c;
-            }
+        .fa-pencil-alt {
+            fill: green;
+            color: green;
         }
+
+        .fa-trash-alt {
+            fill: #ef172c;
+            color: #ef172c;
+        }
+    }
     </style>
     <style>
-        /* Image container and thumbnail styling */
-        .thumbnail {
-            width: 100px;
-            cursor: pointer;
-        }
+    /* Image container and thumbnail styling */
+    .thumbnail {
+        width: 100px;
+        cursor: pointer;
+    }
 
-        /* The lightbox (hidden by default) */
-        .lightbox {
-            display: none;
-            position: fixed;
-            z-index: 99;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            /* Semi-transparent background */
-            overflow: auto;
-            opacity: 0;
-            /* Start with opacity 0 */
-            transition: opacity 0.5s ease;
-            /* Smooth fade-in transition */
-        }
+    /* The lightbox (hidden by default) */
+    .lightbox {
+        display: none;
+        position: fixed;
+        z-index: 99;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        /* Semi-transparent background */
+        overflow: auto;
+        opacity: 0;
+        /* Start with opacity 0 */
+        transition: opacity 0.5s ease;
+        /* Smooth fade-in transition */
+    }
 
-        /* Lightbox image styling */
-        .lightbox-content {
-            max-width: 80%;
-            max-height: 80%;
-            margin: auto;
-            display: block;
-            transform: scale(0);
-            /* Start with the image scaled down */
-            transition: transform 0.2s ease-in-out;
-            /* Smooth zoom-in effect */
-        }
+    /* Lightbox image styling */
+    .lightbox-content {
+        max-width: 80%;
+        max-height: 80%;
+        margin: auto;
+        display: block;
+        transform: scale(0);
+        /* Start with the image scaled down */
+        transition: transform 0.2s ease-in-out;
+        /* Smooth zoom-in effect */
+    }
 
-        /* Close button (X) styling */
-        .close-btn {
-            position: absolute;
-            top: 10%;
-            right: 30px;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    /* Close button (X) styling */
+    .close-btn {
+        position: absolute;
+        top: 10%;
+        right: 30px;
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-        .close-btn:hover,
-        .close-btn:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
-        }
+    .close-btn:hover,
+    .close-btn:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
-        /* Optional: Add zoom-out effect on lightbox image when it is closed */
-        .lightbox.closing .lightbox-content {
-            transform: scale(0);
-        }
+    /* Optional: Add zoom-out effect on lightbox image when it is closed */
+    .lightbox.closing .lightbox-content {
+        transform: scale(0);
+    }
     </style>
 </head>
 
@@ -156,10 +156,12 @@
                                                 <th>#</th>
                                                 <th>Vendor</th>
                                                 <th>Category </th>
-                                                <th>Image</th>
+                                                <th>Cuisine Item</th>
+                                                <th>Cuisine Upc</th>
                                                 <th>Product</th>
                                                 <th>Description</th>
                                                 <th>Price</th>
+                                                <th>L,H,W,Weight</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -170,75 +172,84 @@
                                                 $sr = 1;
                                                 foreach ($products as $row) {
                                             ?>
-                                                    <tr>
-                                                        <td><?= $sr . '.' ?></td>
-                                                        <td><?= $row['userName'] ?></td>
-                                                        <td><?= $row['catName'] ?></td>
-                                                        <td style="width: 15%;">
+                                            <tr>
+                                                <td><?= $sr . '.' ?></td>
+                                                <td><?= $row['userName'] ?></td>
+                                                <td><?= $row['catName'] ?></td>
+                                                <!-- <td style="width: 15%;">
                                                             <div class="image-container">
                                                                 <img id="myImage"  src="<?= base_url('assets/productimages/') . $row['productImage'] ?>" width="30%" alt="Thumbnail" class="thumbnail" />
-                                                            </div>
-                                                            <!-- The Modal (Lightbox) -->
-                                                            <div id="lightbox" class="lightbox">
+                                                            </div> -->
+                                                <!-- The Modal (Lightbox) -->
+                                                <!-- <div id="lightbox" class="lightbox">
                                                                 <span id="closeBtn" class="close-btn">&times;</span>
                                                                 <img class="lightbox-content" id="lightboxImage" />
                                                             </div>
 
-                                                        </td>
-                                                        <td><?= $row['productName'] ?></td>
-                                                        <td><?= $row['productDesp'] ?></td>
-                                                        <td>$ <?= $row['productPrice'] ?></td>
-                                                        <td><?php
+                                                        </td> -->
+                                                <td><?= $row['productCuisineItem'] ?></td>
+                                                <td><?= $row['productCuisineUpc'] ?></td>
+                                                <td><?= $row['productName'] ?></td>
+                                                <td><?= $row['productDesp'] ?></td>
+                                                <td>$ <?= $row['productPrice'] ?></td>
+                                                <td>
+                                                    L: <?= $row['productLength'] ?><br>
+                                                    H: <?= $row['productHeight'] ?><br>
+                                                    W: <?= $row['productWidth'] ?><br>
+                                                    Weight: <?= $row['productWeight'] ?>
+                                                </td>
+                                                <td><?php
                                                             if ($row['productStatus'] == 1) {
                                                             ?>
-                                                                <span class="text-success">Active</span>
-                                                            <?php
+                                                    <span class="text-success">Active</span>
+                                                    <?php
                                                             } else {
                                                             ?>
-                                                                <span class="text-danger">Inactive</span>
-                                                            <?php } ?>
-                                                        </td>
-                                                        <td class="space-gap">
+                                                    <span class="text-danger">Inactive</span>
+                                                    <?php } ?>
+                                                </td>
+                                                <td class="space-gap">
 
-                                                            <?php
+                                                    <?php
                                                             if ($row['productStatus'] == 1) {
                                                             ?>
 
-                                                                <a href="<?= base_url('deactivate-product/') . $row['productID'] ?>"
-                                                                    onclick="return confirmDeactivate()"
-                                                                    class="btn btn-danger">Deactivate</a>
-                                                            <?php
+                                                    <a href="<?= base_url('deactivate-product/') . $row['productID'] ?>"
+                                                        onclick="return confirmDeactivate()"
+                                                        class="btn btn-danger">Deactivate</a>
+                                                    <?php
                                                             } else {
                                                             ?>
-                                                                <a href="<?= base_url('activate-product/') . $row['productID'] ?>"
-                                                                    onclick="return confirmActivate()"
-                                                                    class="btn btn-success">Activate</a>
-                                                            <?php
+                                                    <a href="<?= base_url('activate-product/') . $row['productID'] ?>"
+                                                        onclick="return confirmActivate()"
+                                                        class="btn btn-success">Activate</a>
+                                                    <?php
                                                             }
                                                             ?>
-                                                            <!-- edit -->
-                                                            <a style="margin-right:10px; margin-left:10px" href="<?= base_url('edit-product/') . $row['productID'] ?>">
-                                                                <i class="fas fa-pencil-alt"></i>
-                                                            </a>
-                                                            <!-- delete -->
-                                                            <a href="<?= base_url('delete-product/') . $row['productID'] ?>"
-                                                                onclick="return confirmDelete()">
-                                                                <i class="fas fa-trash-alt"></i>
-                                                            </a>
+                                                    <!-- edit -->
+                                                    <a style="margin-right:10px; margin-left:10px"
+                                                        href="<?= base_url('edit-product/') . $row['productID'] ?>">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <!-- delete -->
+                                                    <a href="<?= base_url('delete-product/') . $row['productID'] ?>"
+                                                        onclick="return confirmDelete()">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
 
-                                                        </td>
-                                                    </tr>
-                                                <?php
+                                                </td>
+                                            </tr>
+                                            <?php
                                                     $sr++;
                                                 }
                                             } else {
 
                                                 ?>
-                                                <tr>
-                                                    <td colspan="7">
-                                                        <center>No Data Found!</center>
-                                                    </td>
-                                                </tr>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <center>No Data Found!</center>
+                                                </td>
+                                            </tr>
                                             <?php
 
                                             }
@@ -249,10 +260,12 @@
                                                 <th>#</th>
                                                 <th>Vendor</th>
                                                 <th>Category </th>
-                                                <th>Image</th>
+                                                <th>Cuisine Item</th>
+                                                <th>Cuisine Upc</th>
                                                 <th>Product</th>
                                                 <th>Description</th>
                                                 <th>Price</th>
+                                                <th>L,H,W,Weight</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -298,14 +311,14 @@
     <?php
     if ($this->session->flashdata('ProductDeactivated') != '') {
     ?>
-        <script type="text/javascript">
-            toastr.options = {
-                "closeButton": true,
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-            toastr.error('Product Deactivated!');
-        </script>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.error('Product Deactivated!');
+    </script>
     <?php
     }
     ?>
@@ -313,14 +326,14 @@
     <?php
     if ($this->session->flashdata('PRoductActivate') != '') {
     ?>
-        <script type="text/javascript">
-            toastr.options = {
-                "closeButton": true,
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-            toastr.success('Product Activated!');
-        </script>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Product Activated!');
+    </script>
     <?php
     }
     ?>
@@ -328,14 +341,14 @@
     <?php
     if ($this->session->flashdata('productDeleted') != '') {
     ?>
-        <script type="text/javascript">
-            toastr.options = {
-                "closeButton": true,
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-            toastr.success('Product Deleted!');
-        </script>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Product Deleted!');
+    </script>
     <?php
     }
     ?>
@@ -343,70 +356,70 @@
     <?php
     if ($this->session->flashdata('ProductUpdated') != '') {
     ?>
-        <script type="text/javascript">
-            toastr.options = {
-                "closeButton": true,
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-            toastr.success('Product Updated!');
-        </script>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Product Updated!');
+    </script>
     <?php
     }
     ?>
     <script>
-        function confirmDeactivate() {
-            if (confirm('Are you sure you want to deactivate?')) {
-                return true;
-            } else {
-                return false;
-            }
+    function confirmDeactivate() {
+        if (confirm('Are you sure you want to deactivate?')) {
+            return true;
+        } else {
+            return false;
         }
+    }
 
-        function confirmActivate() {
-            if (confirm('Are you sure you want to activate?')) {
-                return true;
-            } else {
-                return false;
-            }
+    function confirmActivate() {
+        if (confirm('Are you sure you want to activate?')) {
+            return true;
+        } else {
+            return false;
         }
+    }
 
-        function confirmDelete() {
-            if (confirm('Are you sure you want to delete?')) {
-                return true;
-            } else {
-                return false;
-            }
+    function confirmDelete() {
+        if (confirm('Are you sure you want to delete?')) {
+            return true;
+        } else {
+            return false;
         }
+    }
     </script>
     <script>
-        // Get the elements
-        const lightbox = document.getElementById("lightbox");
-        const lightboxImage = document.getElementById("lightboxImage");
-        const closeBtn = document.getElementById("closeBtn");
-        const myImage = document.getElementById("myImage");
+    // Get the elements
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const closeBtn = document.getElementById("closeBtn");
+    const myImage = document.getElementById("myImage");
 
-        // When the image is clicked, open the lightbox with zoom effect
-        myImage.onclick = function() {
-            lightbox.style.display = "flex";
-            lightbox.style.opacity = 1; // Fade in the lightbox
-            lightboxImage.src = this.src; // Set the lightbox image to the clicked image
-            // Optional: Zoom the image as it appears
-            setTimeout(() => {
-                lightboxImage.style.transform = "scale(1)"; // Zoom-in effect
-            }, 10); // Small delay to trigger the transition
-        };
+    // When the image is clicked, open the lightbox with zoom effect
+    myImage.onclick = function() {
+        lightbox.style.display = "flex";
+        lightbox.style.opacity = 1; // Fade in the lightbox
+        lightboxImage.src = this.src; // Set the lightbox image to the clicked image
+        // Optional: Zoom the image as it appears
+        setTimeout(() => {
+            lightboxImage.style.transform = "scale(1)"; // Zoom-in effect
+        }, 10); // Small delay to trigger the transition
+    };
 
-        // When the close button is clicked, add zoom-out effect and close the lightbox
-        closeBtn.onclick = function() {
-            lightbox.classList.add("closing");
-            lightboxImage.style.transform = "scale(0)";
-            lightbox.classList.remove("closing"); // Add 'closing' class for zoom-out effect
-            setTimeout(() => {
-                lightbox.style.display = "none";
-                // Remove 'closing' class after the transition ends
-            }, 500); // Timeout duration matches the transition time (0.5s)
-        };
+    // When the close button is clicked, add zoom-out effect and close the lightbox
+    closeBtn.onclick = function() {
+        lightbox.classList.add("closing");
+        lightboxImage.style.transform = "scale(0)";
+        lightbox.classList.remove("closing"); // Add 'closing' class for zoom-out effect
+        setTimeout(() => {
+            lightbox.style.display = "none";
+            // Remove 'closing' class after the transition ends
+        }, 500); // Timeout duration matches the transition time (0.5s)
+    };
     </script>
 </body>
 

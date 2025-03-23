@@ -63,7 +63,8 @@
                             <h5 class="card-header">Products Edit Form</h5>
                             <div class="card-body">
                                 <form class="needs-validation" novalidate method="post"
-                                    action="<?= base_url('update-product-data/').$product[0]['productID'] ?>" enctype="multipart/form-data">
+                                    action="<?= base_url('update-product-data/').$product[0]['productID'] ?>"
+                                    enctype="multipart/form-data">
                                     <div class="row">
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
@@ -74,14 +75,12 @@
                                                 if ($vendors) {
                                                     foreach ($vendors as $row) {
                                                 ?>
-                                                        <option
-                                                            <?php
+                                                <option <?php
                                                             if ($row['userID'] == $product[0]['userID']) {
                                                                 echo 'selected';
                                                             }
-                                                            ?>
-
-                                                            value="<?= $row['userID'] ?>"><?= $row['userName'] ?></option>
+                                                            ?> value="<?= $row['userID'] ?>"><?= $row['userName'] ?>
+                                                </option>
                                                 <?php
                                                     }
                                                 }
@@ -103,14 +102,13 @@
                                                 if ($categories) {
                                                     foreach ($categories as $row) {
                                                 ?>
-                                                        <option
-                                                            <?php
+                                                <option <?php
                                                             if ($row['catID'] == $product[0]['catID']) {
                                                                 echo 'selected';
                                                             }
 
-                                                            ?>
-                                                            value="<?= $row['catID'] ?>"><?= $row['catName'] ?></option>
+                                                            ?> value="<?= $row['catID'] ?>"><?= $row['catName'] ?>
+                                                </option>
                                                 <?php
                                                     }
                                                 }
@@ -128,7 +126,8 @@
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="product-name">Product Name</label>
                                             <input type="text" class="form-control" id="product-name"
-                                                name="product-name" value="<?=$product[0]['productName']?>" placeholder="Product Name" required>
+                                                name="product-name" value="<?=$product[0]['productName']?>"
+                                                placeholder="Product Name" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -139,7 +138,8 @@
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="price">Product Price($)</label>
-                                            <input type="number" class="form-control" value="<?=$product[0]['productPrice']?>"  id="price" name="price"
+                                            <input type="number" class="form-control"
+                                                value="<?=$product[0]['productPrice']?>" id="price" name="price"
                                                 placeholder="Product Price" required>
                                             <div class="valid-feedback">
                                                 Looks good!
@@ -163,7 +163,7 @@
                                         </div>
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="productImage">Product Image (Select new image to update)</label>
-                                            <input type="file" name="productImage"  id="productImage"
+                                            <input type="file" name="productImage" id="productImage"
                                                 class="form-control">
                                             <div class="valid-feedback">
                                                 Looks good!
@@ -172,7 +172,8 @@
                                                 Please add a product image.
                                             </div>
                                             <label for="productImage" class="mt-2">Curent Image</label><br>
-                                            <img src="<?= base_url('assets/productimages/') . $product[0]['productImage'] ?>" style="width:100px" alt="">
+                                            <img src="<?= base_url('assets/productimages/') . $product[0]['productImage'] ?>"
+                                                style="width:100px" alt="">
                                         </div>
 
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
@@ -205,14 +206,14 @@
     <?php
     if ($this->session->flashdata('uploadError') != '') {
     ?>
-        <script type="text/javascript">
-            toastr.options = {
-                "closeButton": true,
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-            toastr.error('<?= $this->session->flashdata('uploadError'); ?>');
-        </script>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.error('<?= $this->session->flashdata('uploadError'); ?>');
+    </script>
     <?php
     }
     ?>
@@ -220,64 +221,64 @@
     <?php
     if ($this->session->flashdata('productUploaded') != '') {
     ?>
-        <script type="text/javascript">
-            toastr.options = {
-                "closeButton": true,
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-            toastr.success('Product Added!');
-        </script>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Product Added!');
+    </script>
     <?php
     }
     ?>
     <?php
     if ($this->session->flashdata('successfullyRegistered') != '') {
     ?>
-        <script type="text/javascript">
-            toastr.options = {
-                "closeButton": true,
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-            toastr.success('Vender Registered!');
-        </script>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success('Vender Registered!');
+    </script>
     <?php
     }
     ?>
 
     <script>
-        $('#form').parsley();
+    $('#form').parsley();
     </script>
     <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
     </script>
     <script>
-        document.querySelector('.btn.btn-dark.m-t-10').addEventListener('click', function() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
-            let password = '';
-            for (let i = 0; i < 15; i++) {
-                password += chars[Math.floor(Math.random() * chars.length)];
-            }
-            document.getElementById('user-password').value = password;
-        });
+    document.querySelector('.btn.btn-dark.m-t-10').addEventListener('click', function() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
+        let password = '';
+        for (let i = 0; i < 15; i++) {
+            password += chars[Math.floor(Math.random() * chars.length)];
+        }
+        document.getElementById('user-password').value = password;
+    });
     </script>
 </body>
 
