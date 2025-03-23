@@ -125,14 +125,88 @@
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="price">Product Price($)</label>
                                             <input type="number" class="form-control" id="price" name="price"
-                                                placeholder="Product Price" required>
+                                                placeholder="Product Price" step="any" required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
                                             <div class="invalid-feedback">
-                                                Please enter a product price.
+                                                Please enter a valid product price.
                                             </div>
                                         </div>
+                                        <!-- field  -->
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
+                                            <label for="cuisine-item">Product Cuisine Item</label>
+                                            <input type="text" class="form-control" id="cuisine-item"
+                                                name="cuisine-item" placeholder="Product Cuisine Item" step="any"
+                                                required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid product cuisine item.
+                                            </div>
+                                        </div>
+                                        <!-- field  -->
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
+                                            <label for="cuisine-upc">Product Cuisine UPC</label>
+                                            <input type="text" class="form-control" id="cuisine-upc" name="cuisine-upc"
+                                                placeholder="Product Cuisine UPC" step="any" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid product cuisine upc.
+                                            </div>
+                                        </div>
+                                        <!-- field  -->
+                                        <div class="col-xl-3 col-lg-3 col-md-6  col-sm-12 col-12 m-t-10">
+                                            <label for="product-length">Length</label>
+                                            <input type="text" class="form-control" id="product-length"
+                                                name="product-length" placeholder="Product Length" step="any" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid product cuisine upc.
+                                            </div>
+                                        </div>
+                                        <!-- field  -->
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 m-t-10">
+                                            <label for="product-height">Height</label>
+                                            <input type="text" class="form-control" id="product-height"
+                                                name="product-height" placeholder="Product Height" step="any" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid product height.
+                                            </div>
+                                        </div>
+                                        <!-- field  -->
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 m-t-10">
+                                            <label for="product-width">Width</label>
+                                            <input type="text" class="form-control" id="product-width"
+                                                name="product-width" placeholder="Product Width" step="any" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid product width.
+                                            </div>
+                                        </div>
+                                        <!-- field  -->
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 m-t-10">
+                                            <label for="product-weight">Weight</label>
+                                            <input type="text" class="form-control" id="product-weight"
+                                                name="product-weight" placeholder="Product Weight" step="any" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid product weight.
+                                            </div>
+                                        </div>
+
                                         <!-- field  -->
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="Description">Product Description</label>
@@ -148,15 +222,8 @@
                                         </div>
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
                                             <label for="productImage">Product Image</label>
-                                            <input type="file" name="productImage" required id="productImage"
+                                            <input type="file" name="productImage" id="productImage"
                                                 class="form-control">
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Please add a product image.
-                                            </div>
-
                                         </div>
 
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
@@ -230,6 +297,7 @@
     }
     ?>
 
+
     <script>
     $('#form').parsley();
     </script>
@@ -253,16 +321,7 @@
         }, false);
     })();
     </script>
-    <script>
-    document.querySelector('.btn.btn-dark.m-t-10').addEventListener('click', function() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
-        let password = '';
-        for (let i = 0; i < 15; i++) {
-            password += chars[Math.floor(Math.random() * chars.length)];
-        }
-        document.getElementById('user-password').value = password;
-    });
-    </script>
+
 </body>
 
 </html>

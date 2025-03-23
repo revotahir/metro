@@ -318,12 +318,12 @@ class Welcome extends MY_Controller
 
 		$this->load->library('upload', $config);
 
-		if (!$this->upload->do_upload('productImage')) {
-			// If upload fails, show error
-			$error = $this->upload->display_errors();
-			$this->session->set_flashdata('uploadError', $error);
-			redirect(base_url('add-new-product'));
-		} else {
+		// if (!$this->upload->do_upload('productImage')) {
+		// 	// If upload fails, show error
+		// 	$error = $this->upload->display_errors();
+		// 	$this->session->set_flashdata('uploadError', $error);
+		// 	redirect(base_url('add-new-product'));
+		// } else {
 			// If upload is successful, get the file data
 			$upload_data = $this->upload->data();
 
@@ -333,6 +333,12 @@ class Welcome extends MY_Controller
 				'catID' => $this->input->post('catID'),
 				'productName' => $this->input->post('product-name'),
 				'productPrice' => $this->input->post('price'),
+				'productCuisineItem' => $this->input->post('cuisine-item'),
+				'productCuisineUpc' => $this->input->post('cuisine-upc'),
+				'productLength' => $this->input->post('product-length'),
+				'productHeight' => $this->input->post('product-height'),
+				'productWidth' => $this->input->post('product-width'),
+				'productWeight' => $this->input->post('product-weight'),
 				'productDesp' => $this->input->post('Description'),
 				'productImage' => $upload_data['file_name']
 			);
@@ -342,7 +348,7 @@ class Welcome extends MY_Controller
 			$this->session->set_flashdata('productUploaded', 1);
 			// Redirect or show success message
 			redirect(base_url('add-new-product')); // Replace with your success route
-		}
+		// }
 	}
 
 	public function manageProducts()
