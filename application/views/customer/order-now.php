@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="<?= base_url() ?>assets/images/favicon.png" type="image/png" />
-    <title>Manage Assign Products</title>
+    <title>Order Now</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?= base_url() ?>assets/admin/vendor/bootstrap/css/bootstrap.min.css">
     <link href="<?= base_url() ?>assets/admin/vendor/fonts/circular-std/style.css" rel="stylesheet">
@@ -120,16 +120,14 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Manage Assign Products</h2>
+                            <h2 class="pageheader-title">Order Now</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="<?= base_url('dashboard') ?>"
                                                 class="breadcrumb-link">Dashboard</a>
                                         </li>
-                                        <li class="breadcrumb-item active" aria-current="page">Customers</li>
-                                        <li class="breadcrumb-item active" aria-current="page">Assign Product</li>
-                                        <li class="breadcrumb-item active" aria-current="page">Manage Assign Product</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Order Now</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -140,73 +138,12 @@
                 <!-- end pageheader -->
                 <!-- ============================================================== -->
 
-                <div class="row">
-                    <!-- ============================================================== -->
-                    <!-- validation form -->
-                    <!-- ============================================================== -->
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="card">
-                            <h5 class="card-header">Select Customer</h5>
-                            <div class="card-body">
-                                <form class="needs-validation" novalidate method="get">
-                                    <div class="row">
-                                        <!-- field  -->
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-10">
-                                            <label for="customerID">Select Customer</label>
-                                            <select name="customerID" id="customerID" required class="form-control">
-                                                <option value="">Select Customer</option>
-                                                <?php
-                                                if ($customers) {
-                                                    foreach ($customers as $row) {
-                                                ?>
-                                                        <option
-                                                            <?php
-                                                            if (isset($_GET['customerID'])) {
-                                                                if ($row['userID'] == $_GET['customerID']) {
-                                                                    echo 'selected';
-                                                                }
-                                                            }
-                                                            ?>
-                                                            value="<?= $row['userID'] ?>"><?= $row['userName'] ?></option>
-                                                <?php
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Please enter a select vendor.
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
-                                            <button class="btn btn-primary" type="submit">Select</button>
-                                            <?php
-                                            if (isset($_GET['customerID'])) {
-                                            ?>
-                                                <a href="<?= base_url('manage-assign-product') ?>" class="ml-2">
-                                                    Clear Select
-                                                </a>
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ============================================================== -->
-                    <!-- end validation form -->
-                    <!-- ============================================================== -->
-                </div>
 
                 <div class="row">
                     <!-- ============================================================== -->
                     <!-- data table  -->
                     <!-- ============================================================== -->
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9">
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="mb-0">Products Data</h5>
@@ -217,12 +154,10 @@
                                         style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>Vendor</th>
                                                 <th>Category </th>
                                                 <th>Product</th>
                                                 <th>Description</th>
-                                                <th>Price</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -232,21 +167,22 @@
                                                 foreach ($products as $row) {
                                             ?>
                                                     <tr id="producttr_<?= $row['productID'] ?>">
-                                                        <td><?= $sr . '.' ?></td>
-                                                        <td><?= $row['userName'] ?></td>
+
                                                         <td><?= $row['catName'] ?></td>
 
                                                         <td><?= $row['productName'] ?></td>
-                                                        <td><?= $row['productDesp'] ?></td>
-                                                        <td>Vendor Price: $<?= $row['productPrice'] ?><br>
-                                                            <span id="assignedPriceSpan_<?= $row['productID'] ?>">
-                                                                Assigned Price : <span id="assignedPrice_<?= $row['productID'] ?>">$<?= $row['newPrice'] ?></span> <br>
-                                                                <input type="button" class="btn-xm btn-primary mt-1" onclick="return editpriceformView(<?= $row['productID'] ?>)" value="Edit Assigned Price">
-                                                            </span>
-                                                            <form id="editPriceform_<?= $row['productID'] ?>" style="display: none;">
-                                                                <input type="number" name="newPrice_<?= $row['productID'] ?>" class="form-control" value="<?= $row['newPrice'] ?>" id="newPrice_<?= $row['productID'] ?>">
-                                                                <input type="button" value="Update" onclick="AssignUpdateAjax(<?= $row['productID'] ?>,<?= $row['productPrice'] ?>,<?= $_GET['customerID'] ?>)" class="btn-xm btn-primary mt-2">
-                                                                <input type="button" value="Cancel" onclick="return showAssignedPrice(<?= $row['productID'] ?>)" class="btn-xm btn-outline-primary">
+                                                        <td><?= $row['productDesp'] ?><br>
+                                                            <Strong class="text-success">Price= $<?= $row['newPrice'] ?></Strong><br>
+                                                            <strong>Dimentions</strong><br>
+                                                            L: <?= ($row['productLength']=='')?'N/A':$row['productLength'] ?><br>
+                                                            H: <?= ($row['productHeight']=='')?'N/A':$row['productHeight'] ?><br>
+                                                            W: <?= ($row['productWidth']=='')?'N/A':$row['productWidth'] ?><br>
+                                                            Weight: <?= ($row['productWeight'] =='')?'N/A':$row['productWeight'] ?>
+                                                        </td>
+                                                        <td>
+                                                            <form id="addtoCartForm_<?= $row['productID'] ?>">
+                                                                <input type="number" name="qty_<?= $row['productID'] ?>" class="form-control" placeholder="Quantity" id="qty_<?= $row['productID'] ?>">
+                                                                <input type="button" value="Add to Cart" onclick="addTocartAjax(<?= $row['productID'] ?>,<?= $row['newPrice'] ?>)" class="btn-xm btn-primary mt-2">
                                                             </form>
                                                             <script>
                                                                 document.getElementById('editPriceform_<?= $row['productID'] ?>').addEventListener('keypress', function(event) {
@@ -280,12 +216,10 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                            <th>#</th>
-                                                <th>Vendor</th>
                                                 <th>Category </th>
                                                 <th>Product</th>
                                                 <th>Description</th>
-                                                <th>Price</th>
+                                                <th>Action</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -293,6 +227,64 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-3 mb-3">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="d-flex justify-content-between align-items-center mb-0">
+                                                        <span class="text-muted">Order Summary</span>
+                                          <span class="badge badge-secondary badge-pill" id="sumaryTotalCount"><?=$cartCount[0]['result']?></span>
+                                                 </h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group mb-3" id="summaryLI">
+                                                <?php 
+                                                    if($cartProduct){
+                                                        $totalAmount = 0;
+                                                        foreach($cartProduct as $row){
+                                                            $totalAmount += $row['price'] * $row['quantity'];
+                                                ?>
+                                                <li class="list-group-item d-flex justify-content-between">
+                                                    <div>
+                                                        <h6 class="my-0"><?=$row['productName']?></h6>
+                                                        <small class="text-muted"><?=$row['productDesp']?></small>
+                                                    </div>
+                                                    <span class="text-muted">$<?=$row['price']?> x <?=$row['quantity']?></span>
+                                                </li>
+                                                <?php 
+                                                        }
+                                                    }else{
+                                                    ?>
+                                                    <li class="list-group-item">
+                                                        <center>
+                                                            <strong>No Product Added!</strong>
+                                                        </center>
+                                                    </li>
+                                                    <?php 
+
+                                                    }
+                                                    ?>
+                                                <li class="list-group-item d-flex justify-content-between">
+                                                    <span>Total (USD)</span>
+                                                    <strong id="totalAmount">$<?php 
+                                                    if(isset($totalAmount)){
+                                                        echo $totalAmount;
+                                                    }else{
+                                                        echo '0';
+                                                    }
+                                                    ?></strong>
+                                                </li>
+                                            </ul>
+                                            <form>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="">
+                                                    <div class="input-group-append">
+                                                        <button type="submit" class="btn btn-secondary">Redeem</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                     <!-- ============================================================== -->
                     <!-- end data table  -->
                     <!-- ============================================================== -->
@@ -326,50 +318,56 @@
     <script src="<?= base_url() ?>assets/toastr/toastr.min.js"></script>
 
     <script>
-        function editpriceformView(productID) {
-            $('#assignedPriceSpan_' + productID).hide();
-            $('#editPriceform_' + productID).fadeIn();
-        }
+      
 
-        function showAssignedPrice(productID) {
-            $('#editPriceform_' + productID).hide();
-            $('#assignedPriceSpan_' + productID).fadeIn();
-        }
-
-        function AssignUpdateAjax(productid, vendorPrice, customerID) {
-            var newPrice = $('#newPrice_' + productid).val();
-            if (newPrice <= vendorPrice) {
+        function addTocartAjax(productid, price) {
+            var qty = $('#qty_' + productid).val();
+            if (qty == '') {
                 toastr.options = {
                     "closeButton": true,
                     "showMethod": "fadeIn",
                     "hideMethod": "fadeOut"
                 }
-                toastr.error('Vendor Price is greater then customer price!');
-                $('#newPrice_' + productid).css('border', '1px solid red');
+                toastr.error('Please Enter Quantity!');
+                $('#qty_' + productid).css('border', '1px solid red');
 
             } else {
                 //  Make an AJAX POST request
                 $.ajax({
-                    url: '<?= base_url('assign-price-tocustomer-update') ?>', // URL to the controller method
+                    url: '<?= base_url('add-to-cart-data') ?>', // URL to the controller method
                     type: 'POST', // HTTP method
                     data: {
-                        customerID: customerID,
                         productID: productid,
-                        newPRice: newPrice
+                        quantity: qty,
+                        price: price
                     }, // Data to send
 
                     success: function(response) {
-                        if (response == 'productedited') {
+                        const parts = response.split('//');
+                        //run toaster based on cart update
+                        if (parts[0] == 'QtyUpdated') {
                             toastr.options = {
                                 "closeButton": true,
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
                             }
-                            toastr.success('Product Price Updated!');
-                            $('#editPriceform_' + productid).hide();
-                            $('#assignedPrice_' + productid).html('$'+newPrice);
-                            $('#assignedPriceSpan_' + productid).fadeIn();
+                            toastr.info('Quantity Added!');
+                         
+                        }else{
+                            toastr.options = {
+                                "closeButton": true,
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            toastr.success('Product Added To Cart!');
                         }
+                        //update sumery
+                        $('#summaryLI').html('');
+                        $('#summaryLI').html(parts[1]);
+
+                        //update total Amount
+                        $('#sumaryTotalCount').html('');
+                        $('#sumaryTotalCount').html(parts[2]);
                     },
                     error: function(xhr, status, error) {
                         // Handle errors

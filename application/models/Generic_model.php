@@ -67,6 +67,21 @@ class Generic_model extends CI_Model
             return false;
         }
     }
+    public function GetCount($table, $colum,$where=false)
+    {
+        $this->db->select('count(' . $colum . ') as result');
+        $this->db->from($table);
+        if ($where) {
+            $this->db->where($where);
+        }
+        $q = $this->db->get();
+        //    die($this->db->last_query());
+        if ($q->num_rows() > 0) {
+            return $q->result_array();
+        } else {
+            return false;
+        }
+    }
     function LoginData($email, $pass)
     {
         $this->db->select('*');
@@ -120,6 +135,14 @@ class Generic_model extends CI_Model
         $this->db->join('assignProduct ap', 'p.productID = ap.productID', 'inner');
         $this->db->where('ap.customerID', $customerID); // Filter by customerID
         $this->db->where('p.productStatus', 1); // Only active products
+        $query = $this->db->get();
+
+        return $query->result_array(); // Return results as an array
+    }
+    public function GetProductsByCart($where=false){
+        $this->db->select('*');
+        $this->db->from('cart c');
+        $this->db->join('products p', 'p.productID = c.productID', 'inner');
         $query = $this->db->get();
 
         return $query->result_array(); // Return results as an array

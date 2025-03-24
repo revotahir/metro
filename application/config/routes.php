@@ -102,7 +102,9 @@ $route['update-product-data/:any'] = 'welcome/EditProductData';
 
 //---------Customer routes
 $route['customer-dashboard']='customer/Dashboard';
-
+//order now
+$route['order-now']='customer/OrderNow';
+$route['add-to-cart-data']='customer/addToCartData';
 
 
 $route['logout'] = 'welcome/LogOut';
