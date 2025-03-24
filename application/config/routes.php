@@ -78,6 +78,8 @@ $route['update-customer-data/:any'] = 'welcome/updateCustomerData';
 //--Customer product assign 
 $route['assign-product']='welcome/assignProductView'; 
 $route['assign-price-tocustomer']='welcome/assignProductDataAjax'; //ajax call for price update 
+$route['assign-price-tocustomer-update']='welcome/assignProductEditDataAjax'; //ajax call for price edit from manage assign product price 
+$route['manage-assign-product']='welcome/manageAssignProducts';
 
 // category route
 $route['category'] = 'welcome/AdminCategory';
@@ -98,7 +100,8 @@ $route['delete-product/:any'] = 'welcome/DeleteProduct';
 $route['edit-product/:any'] = 'welcome/EditProduct';
 $route['update-product-data/:any'] = 'welcome/EditProductData';
 
-
+//---------Customer routes
+$route['customer-dashboard']='customer/Dashboard';
 
 
 

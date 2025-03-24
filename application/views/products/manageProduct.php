@@ -161,7 +161,6 @@
                                                 <th>Product</th>
                                                 <th>Description</th>
                                                 <th>Price</th>
-                                                <th>L,H,W,Weight</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -190,14 +189,15 @@
                                                 <td><?= $row['productCuisineItem'] ?></td>
                                                 <td><?= $row['productCuisineUpc'] ?></td>
                                                 <td><?= $row['productName'] ?></td>
-                                                <td><?= $row['productDesp'] ?></td>
-                                                <td>$ <?= $row['productPrice'] ?></td>
-                                                <td>
-                                                    L: <?= $row['productLength'] ?><br>
+                                                <td><?= $row['productDesp'] ?><br>
+                                                <strong>Dimentions</strong><br>
+                                                L: <?= $row['productLength'] ?><br>
                                                     H: <?= $row['productHeight'] ?><br>
                                                     W: <?= $row['productWidth'] ?><br>
                                                     Weight: <?= $row['productWeight'] ?>
-                                                </td>
+                                            </td>
+                                                <td>$ <?= $row['productPrice'] ?></td>
+                                               
                                                 <td><?php
                                                             if ($row['productStatus'] == 1) {
                                                             ?>
@@ -265,7 +265,6 @@
                                                 <th>Product</th>
                                                 <th>Description</th>
                                                 <th>Price</th>
-                                                <th>L,H,W,Weight</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>

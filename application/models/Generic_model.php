@@ -112,6 +112,18 @@ class Generic_model extends CI_Model
 
         return $query->result_array(); // Return results as an array
     }
+    public function GetAssignedProducts($customerID){
+        $this->db->select('p.*, v.*, pc.*,ap.newPrice');
+        $this->db->from('products p');
+        $this->db->join('productcategory pc', 'p.catID = pc.catID', 'inner');
+        $this->db->join('users v', 'p.userID = v.userID', 'inner');
+        $this->db->join('assignProduct ap', 'p.productID = ap.productID', 'inner');
+        $this->db->where('ap.customerID', $customerID); // Filter by customerID
+        $this->db->where('p.productStatus', 1); // Only active products
+        $query = $this->db->get();
+
+        return $query->result_array(); // Return results as an array
+    }
 
 
   

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Welcome extends MY_Controller
+class customer extends MY_Controller
 {
 	function __construct()
 	{
@@ -25,9 +25,9 @@ class Welcome extends MY_Controller
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/userguide3/general/urls.html
 	 */
-	public function index()
+	public function Dashboard()
 	{
-		$this->load->view('login');
+		$this->load->view('customer/dashboard-customer');
 	}
 	// <!-- ============================================================== -->
 	// <!-- Login function -->
