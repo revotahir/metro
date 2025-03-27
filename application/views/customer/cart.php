@@ -40,65 +40,61 @@
         }
     </style>
     <style>
-        /* Image container and thumbnail styling */
-        .thumbnail {
-            width: 100px;
-            cursor: pointer;
-        }
+       
 
-        /* The lightbox (hidden by default) */
-        .lightbox {
-            display: none;
-            position: fixed;
-            z-index: 99;
-            left: 0;
-            top: 0;
+        table {
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            /* Semi-transparent background */
-            overflow: auto;
-            opacity: 0;
-            /* Start with opacity 0 */
-            transition: opacity 0.5s ease;
-            /* Smooth fade-in transition */
+            border-collapse: collapse;
         }
 
-        /* Lightbox image styling */
-        .lightbox-content {
-            max-width: 80%;
-            max-height: 80%;
-            margin: auto;
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+        tr{
+            background-color: white;
+        }
+
+
+       
+
+        .cart-totals {
+            border: 1px solid #ddd;
+            padding: 15px;
+            width: 300px;
+            margin-top: 20px;
+            margin-left: auto;
+            background-color: white;
+        }
+
+        .checkout {
+            background-color: #bccf00;
+            color: black;
+            padding: 15px;
+            border: none;
+            width: 100%;
+            text-align: center;
             display: block;
-            transform: scale(0);
-            /* Start with the image scaled down */
-            transition: transform 0.2s ease-in-out;
-            /* Smooth zoom-in effect */
+            margin-top: 10px;
+            font-size: 16px;
         }
 
-        /* Close button (X) styling */
-        .close-btn {
-            position: absolute;
-            top: 10%;
-            right: 30px;
+        .cancel-btn {
+            background-color: red;
             color: white;
-            font-size: 40px;
-            font-weight: bold;
+            padding: 5px 10px;
+            border: none;
             cursor: pointer;
-        }
-
-        .close-btn:hover,
-        .close-btn:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* Optional: Add zoom-out effect on lightbox image when it is closed */
-        .lightbox.closing .lightbox-content {
-            transform: scale(0);
+            margin-right: 10px;
         }
     </style>
+ 
 </head>
 
 <body>
@@ -120,7 +116,7 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Order Now</h2>
+                            <h2 class="pageheader-title">Cart</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
@@ -128,6 +124,7 @@
                                                 class="breadcrumb-link">Dashboard</a>
                                         </li>
                                         <li class="breadcrumb-item active" aria-current="page">Order Now</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Cart</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -143,150 +140,48 @@
                     <!-- ============================================================== -->
                     <!-- data table  -->
                     <!-- ============================================================== -->
-                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Products Data</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="example" class="table table-striped table-bordered second"
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Category </th>
-                                                <th>Product</th>
-                                                <th>Description</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            if ($products) {
-                                                $sr = 1;
-                                                foreach ($products as $row) {
-                                            ?>
-                                                    <tr id="producttr_<?= $row['productID'] ?>">
-
-                                                        <td><?= $row['catName'] ?></td>
-
-                                                        <td><?= $row['productName'] ?></td>
-                                                        <td><?= $row['productDesp'] ?><br>
-                                                            <Strong class="text-success">Price= $<?= $row['newPrice'] ?></Strong><br>
-                                                            <strong>Dimentions</strong><br>
-                                                            L: <?= ($row['productLength'] == '') ? 'N/A' : $row['productLength'] ?><br>
-                                                            H: <?= ($row['productHeight'] == '') ? 'N/A' : $row['productHeight'] ?><br>
-                                                            W: <?= ($row['productWidth'] == '') ? 'N/A' : $row['productWidth'] ?><br>
-                                                            Weight: <?= ($row['productWeight'] == '') ? 'N/A' : $row['productWeight'] ?>
-                                                        </td>
-                                                        <td>
-                                                            <form id="addtoCartForm_<?= $row['productID'] ?>">
-                                                                <input type="number" name="qty_<?= $row['productID'] ?>" class="form-control" placeholder="Quantity" id="qty_<?= $row['productID'] ?>">
-                                                                <input type="button" value="Add to Cart" onclick="addTocartAjax(<?= $row['productID'] ?>,<?= $row['newPrice'] ?>)" class="btn-xm btn-primary mt-2">
-                                                            </form>
-                                                            <script>
-                                                                document.getElementById('addtoCartForm_<?= $row['productID'] ?>').addEventListener('keypress', function(event) {
-                                                                    // Check if the pressed key is Enter (key code 13)
-                                                                    if (event.key === 'Enter') {
-                                                                        // Prevent the default form submission
-                                                                        event.preventDefault();
-
-
-                                                                    }
-                                                                });
-                                                            </script>
-                                                        </td>
-
-                                                    </tr>
-                                                <?php
-                                                    $sr++;
-                                                }
-                                            } else {
-
-                                                ?>
-                                                <tr>
-                                                    <td colspan="9">
-                                                        <center>No Data Found!</center>
-                                                    </td>
-                                                </tr>
-                                            <?php
-
-                                            }
-                                            ?>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Category </th>
-                                                <th>Product</th>
-                                                <th>Description</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="d-flex justify-content-between align-items-center mb-0">
-                                    <span class="text-muted">Order Summary</span>
-                                    <span class="badge badge-secondary badge-pill" id="sumaryTotalCount"><?= $cartCount[0]['result'] ?></span>
-                                </h4>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-group mb-3" id="summaryLI">
-                                    <?php
-                                    if ($cartProduct) {
-                                        $totalAmount = 0;
-                                        foreach ($cartProduct as $row) {
-                                            $totalAmount += $row['price'] * $row['quantity'];
-                                    ?>
-                                            <li class="list-group-item" id="cartItems_<?=$row['cartID']?>" style="justify-content: start !important;display:flex;
-  gap: 20px;">
-                                                <div>
-                                                    <a href="javascript:void(0);" onclick="deleteCart(<?= $row['cartID'] ?>)"><i class="far fa-window-close" style="color: red;"></i></a>
-                                                </div>
-                                                <div>
-                                                    <h6 class="my-0"><?= $row['productName'] ?></h6>
-                                                    <small class="text-muted"><?= $row['productDesp'] ?></small>
-                                                </div>
-                                                <span class="text-muted" style="margin-left: auto;">$<?= $row['price'] ?> x <?= $row['quantity'] ?></span>
-                                            </li>
-                                        <?php
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <form action="<?=base_url('update-cart-quantity')?>" method="post">
+                        <table>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
+                            </tr>
+                            <?php 
+                                    if($cartProducts){
+                                        foreach($cartProducts as $row){
+                            ?>
+                            <tr>
+                                <td><button class="cancel-btn">X</button> <?=$row['productName']?></td>
+                                <td>$ <?=$row['price']?></td>
+                                <td><input type="number" value="<?=$row['quantity']?>" min="1" style="width: 50px" /></td>
+                                <td>$ <?=$row['quantity']*$row['price']?></td>
+                            </tr>
+                            <?php 
                                         }
-                                    } else {
+                                    }else{
                                         ?>
-                                        <li class="list-group-item">
-                                            <center>
-                                                <strong>No Product Added!</strong>
-                                            </center>
-                                        </li>
-                                    <?php
-
+                                    <tr>
+                                        <td colspan="4">
+                                            <strong>
+                                                <center>No Products Found</center>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                        <?php 
                                     }
                                     ?>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span>Total (USD)</span>
-                                        <strong id="totalAmount">$<?php
-                                                                    if (isset($totalAmount)) {
-                                                                        echo $totalAmount;
-                                                                    } else {
-                                                                        echo '0';
-                                                                    }
-                                                                    ?></strong>
-                                    </li>
-                                </ul>
-                                <form>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-secondary">Redeem</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                        </table>
+
+                        <button class="btn btn-primary mt-3" style="display: flex; margin-left:auto" type="submit">Update cart</button>
+                        </form>
+                        <div class="cart-totals">
+                            <h3>Cart totals</h3>
+                            <p>Subtotal: Rs245,601.00</p>
+                            <p>Total: Rs245,601.00</p>
+                            <button class="btn btn-primary" style="width: 100%;">Proceed to checkout</button>
                         </div>
                     </div>
                     <!-- ============================================================== -->
@@ -323,28 +218,28 @@
 
     <script>
         function deleteCart(cartID) {
-            if(confirm('Are you sure you want to delete?')){
-            $.ajax({
-                url: '<?= base_url('delet-cart-item') ?>',
-                type: 'POST',
-                data: {
-                    cartid: cartID
-                },
-                success: function(response) {
-                    const parts = response.split('//');
-                    if(parts[0]=='done'){
-                        $('#cartItems_'+cartID).fadeOut();
-                        $('#totalAmount').html('$'+parts[1]);
+            if (confirm('Are you sure you want to delete?')) {
+                $.ajax({
+                    url: '<?= base_url('delet-cart-item') ?>',
+                    type: 'POST',
+                    data: {
+                        cartid: cartID
+                    },
+                    success: function(response) {
+                        const parts = response.split('//');
+                        if (parts[0] == 'done') {
+                            $('#cartItems_' + cartID).fadeOut();
+                            $('#totalAmount').html('$' + parts[1]);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        console.error('AJAX Error: ' + status + error);
                     }
-                },
-                error: function(xhr, status, error) {
-                    // Handle errors
-                    console.error('AJAX Error: ' + status + error);
-                }
-            });
-        }else{
-            return false;
-        }
+                });
+            } else {
+                return false;
+            }
         }
 
         function addTocartAjax(productid, price) {

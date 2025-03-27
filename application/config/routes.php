@@ -104,7 +104,9 @@ $route['update-product-data/:any'] = 'welcome/EditProductData';
 $route['customer-dashboard']='customer/Dashboard';
 //order now
 $route['order-now']='customer/OrderNow';
-$route['add-to-cart-data']='customer/addToCartData';
+$route['add-to-cart-data']='customer/addToCartData'; //--ajax call
+$route['delet-cart-item']='customer/DeletCartItem'; //--ajax call
+$route['cart']='customer/cart';
 
 
 $route['logout'] = 'welcome/LogOut';

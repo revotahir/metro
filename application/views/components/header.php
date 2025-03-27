@@ -15,8 +15,8 @@
                     if ($this->session->userdata['loginData']['userType'] == 2) {
                     ?>
                         <li class="nav-item dropdown nav-user">
-                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink2"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link nav-icons" href="<?=base_url('cart')?>" id="navbarDropdownMenuLink2"
+                               >
                                 <i class="fas fa-shopping-cart"></i>
                             </a>
                         </li>

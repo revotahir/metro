@@ -76,24 +76,44 @@ class customer extends MY_Controller
 			$totalAmount = 0;
 			$li = '';
 			foreach ($cartProduct as $row) {
-				$li = $li . ' <li class="list-group-item d-flex justify-content-between">
+				$li = $li . '  <li class="list-group-item" id="cartItems_' . $row['cartID'] . '" style="justify-content: start !important;display:flex;
+  gap: 20px;">
+				<div>
+                                                    <a href="javascript:void(0);" onclick="deleteCart(' . $row['cartID'] . ')"><i class="far fa-window-close" style="color: red;"></i></a>
+                                                </div>
                                                     <div>
                                                         <h6 class="my-0">' . $row['productName'] . '</h6>
-                                                        <small class="text-muted">' . $row['productDesp'] . '</small>
+                                                        <small class="text-muted" >' . $row['productDesp'] . '</small>
                                                     </div>
-                                                    <span class="text-muted">$' . $row['price'] . ' X '.$row['quantity'].'</span>
+                                                    <span class="text-muted" style="margin-left: auto;">$' . $row['price'] . ' X ' . $row['quantity'] . '</span>
                                                 </li>';
-				$totalAmount = $totalAmount + ($row['price']*$row['quantity']);
-				
+				$totalAmount = $totalAmount + ($row['price'] * $row['quantity']);
 			}
 		}
-		$li=$li.' <li class="list-group-item d-flex justify-content-between">
+		$li = $li . ' <li class="list-group-item d-flex justify-content-between">
                                                     <span>Total (USD)</span>
-                                                    <strong id="totalAmount">$'.$totalAmount.'</strong>
+                                                    <strong id="totalAmount">$' . $totalAmount . '</strong>
                                                 </li>';
-												$TotalProduct = $this->generic->GetCount('cart', 'cartID', array('customerID' => $this->session->userdata['loginData']['userID'], 'cartStatus' => 0));
+		$TotalProduct = $this->generic->GetCount('cart', 'cartID', array('customerID' => $this->session->userdata['loginData']['userID'], 'cartStatus' => 0));
 
-		$output=$output.$li.'//'.$TotalProduct[0]['result'];
+		$output = $output . $li . '//' . $TotalProduct[0]['result'];
 		echo $output;
+	}
+	public function DeletCartItem()
+	{
+		//delet from cart
+		$this->generic->Delete('cart', array('cartID' => $this->input->post('cartid')));
+		$cartProduct = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID']));
+		if ($cartProduct) {
+			$totalAmount = 0;
+			foreach ($cartProduct as $row) {
+				$totalAmount = $totalAmount + ($row['price'] * $row['quantity']);
+			}
+		}
+		echo 'done//'.$totalAmount;
+	}
+	public function cart(){
+		$this->data['cartProducts']=$this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID']));
+		$this->load->view('customer/cart',$this->data);
 	}
 }
