@@ -1,4 +1,16 @@
-    <!-- ============================================================== -->
+   <style>
+    .cart-badge {
+    font-size: 12px;
+    padding: 3px 6px;
+    min-width: 18px;
+    height: 18px;
+    line-height: 1;
+    color: white;
+  border-radius: 10px; 
+}
+   </style>
+   
+   <!-- ============================================================== -->
     <!-- navbar -->
     <!-- ============================================================== -->
     <div class="dashboard-header">
@@ -15,9 +27,12 @@
                     if ($this->session->userdata['loginData']['userType'] == 2) {
                     ?>
                         <li class="nav-item dropdown nav-user">
-                            <a class="nav-link nav-icons" href="<?=base_url('cart')?>" id="navbarDropdownMenuLink2"
+                            <a class="nav-link nav-icons position-relative" href="<?=base_url('cart')?>" id="navbarDropdownMenuLink2"
                                >
                                 <i class="fas fa-shopping-cart"></i>
+                                <span class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartBadge">
+           <?=$cartCount[0]['result']?>
+        </span>
                             </a>
                         </li>
                     <?php
@@ -69,14 +84,17 @@
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="<?= base_url('customer-dashboard') ?>"><i
-                                        class="fa fa-fw fa-user-circle"></i>Dashboard <span
-                                        class="badge badge-success">6</span>
+                                        class="fa fa-fw fa-user-circle"></i>Dashboard
                                 </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="<?= base_url('order-now') ?>"><i
-                                        class="fas fa-cart-plus"></i>Order Now <span
-                                        class="badge badge-success">6</span>
+                                        class="fas fa-cart-plus"></i>Order Now 
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?= base_url('order-now') ?>"><i
+                                        class="fas fa-cart-plus"></i>Order History
                                 </a>
                             </li>
                         </ul>

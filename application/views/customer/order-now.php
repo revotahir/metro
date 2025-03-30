@@ -124,7 +124,7 @@
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="<?= base_url('dashboard') ?>"
+                                        <li class="breadcrumb-item"><a href="<?= base_url('customer-dashboard') ?>"
                                                 class="breadcrumb-link">Dashboard</a>
                                         </li>
                                         <li class="breadcrumb-item active" aria-current="page">Order Now</li>
@@ -243,7 +243,7 @@
                                         foreach ($cartProduct as $row) {
                                             $totalAmount += $row['price'] * $row['quantity'];
                                     ?>
-                                            <li class="list-group-item" id="cartItems_<?=$row['cartID']?>" style="justify-content: start !important;display:flex;
+                                            <li class="list-group-item" id="cartItems_<?= $row['cartID'] ?>" style="justify-content: start !important;display:flex;
   gap: 20px;">
                                                 <div>
                                                     <a href="javascript:void(0);" onclick="deleteCart(<?= $row['cartID'] ?>)"><i class="far fa-window-close" style="color: red;"></i></a>
@@ -280,10 +280,8 @@
                                 </ul>
                                 <form>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-secondary">Redeem</button>
-                                        </div>
+                                       
+                                        <a class="btn btn-primary mt-3" href="<?=base_url('checkout')?>" style="width: 100%;">Proceed to checkout</a>
                                     </div>
                                 </form>
                             </div>
@@ -323,28 +321,54 @@
 
     <script>
         function deleteCart(cartID) {
-            if(confirm('Are you sure you want to delete?')){
-            $.ajax({
-                url: '<?= base_url('delet-cart-item') ?>',
-                type: 'POST',
-                data: {
-                    cartid: cartID
-                },
-                success: function(response) {
-                    const parts = response.split('//');
-                    if(parts[0]=='done'){
-                        $('#cartItems_'+cartID).fadeOut();
-                        $('#totalAmount').html('$'+parts[1]);
+            if (confirm('Are you sure you want to delete?')) {
+                $.ajax({
+                    url: '<?= base_url('delet-cart-item') ?>',
+                    type: 'POST',
+                    data: {
+                        cartid: cartID
+                    },
+                    success: function(response) {
+                        const parts = response.split('//');
+                        if (parts[0] == 'done') {
+                            //toaster
+                            toastr.options = {
+                                "closeButton": true,
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            toastr.success('Product Deleted From Cart!');
+                            $('#cartItems_' + cartID).fadeOut();
+                            // alert(parts[1]);
+                            if (parts[1] == 'empty') {
+                                $html = '<li class="list-group-item" ><center><strong>No Product Added!</strong> </center></li>';
+                                $('#summaryLI').html($html);
+                            } else {
+
+                                $('#totalAmount').html('$' + parts[1]);
+                            }
+                            //total product count
+                            if (parts[2] == 'empty') {
+                                $('#sumaryTotalCount').html('');
+                                $('#sumaryTotalCount').html('0');
+                                $('#cartBadge').html('');
+                                $('#cartBadge').html('0');
+                            } else {
+                                $('#sumaryTotalCount').html('');
+                                $('#sumaryTotalCount').html(parts[2]);
+                                $('#cartBadge').html('');
+                                $('#cartBadge').html(parts[2]);
+                            }
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        console.error('AJAX Error: ' + status + error);
                     }
-                },
-                error: function(xhr, status, error) {
-                    // Handle errors
-                    console.error('AJAX Error: ' + status + error);
-                }
-            });
-        }else{
-            return false;
-        }
+                });
+            } else {
+                return false;
+            }
         }
 
         function addTocartAjax(productid, price) {
@@ -395,6 +419,8 @@
                         //update total Amount
                         $('#sumaryTotalCount').html('');
                         $('#sumaryTotalCount').html(parts[2]);
+                        $('#cartBadge').html('');
+                        $('#cartBadge').html(parts[2]);
 
                         //reset input value
                         $('#qty_' + productid).val('');
@@ -409,6 +435,20 @@
         }
     </script>
     <!-- deactive -->
+    <?php
+    if ($this->session->flashdata('checkoutDone') != '') {
+    ?>
+        <script type="text/javascript">
+            toastr.options = {
+                "closeButton": true,
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            toastr.success('Order Placed!');
+        </script>
+    <?php
+    }
+    ?>
     <?php
     if ($this->session->flashdata('ProductDeactivated') != '') {
     ?>

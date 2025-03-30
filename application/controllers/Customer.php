@@ -28,12 +28,12 @@ class customer extends MY_Controller
 	 */
 	public function Dashboard()
 	{
-		$this->load->view('customer/dashboard-customer');
+		$this->load->view('customer/dashboard-customer', $this->data);
 	}
 
 	public function OrderNow()
 	{
-		$this->data['cartProduct'] = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID']));
+		$this->data['cartProduct'] = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
 		$this->data['products'] = $this->generic->GetAssignedProducts($this->session->userdata['loginData']['userID']);
 		$this->load->view('customer/order-now', $this->data);
 	}
@@ -71,7 +71,7 @@ class customer extends MY_Controller
 			$output = $output . 'AddedNew//';
 		}
 		//get all product for sumary
-		$cartProduct = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID']));
+		$cartProduct = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
 		if ($cartProduct) {
 			$totalAmount = 0;
 			$li = '';
@@ -103,17 +103,69 @@ class customer extends MY_Controller
 	{
 		//delet from cart
 		$this->generic->Delete('cart', array('cartID' => $this->input->post('cartid')));
+		$cartProduct = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
+		if ($cartProduct) {
+			$totalproducts = 0;
+			$totalAmount = 0;
+			foreach ($cartProduct as $row) {
+				$totalAmount = $totalAmount + ($row['price'] * $row['quantity']);
+				$totalproducts++;
+			}
+		} else {
+			$totalAmount = 'empty';
+			$totalproducts = 'empty';
+		}
+		echo 'done//' . $totalAmount . '//' . $totalproducts;
+	}
+	public function cart()
+	{
+		$this->data['cartProducts'] = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
+		$this->load->view('customer/cart', $this->data);
+	}
+	public function UpdateQuanityFromCart()
+	{
+		$this->generic->Update('cart', array('cartID' => $this->input->post('cartid')), array('quantity' => $this->input->post('quantity')));
 		$cartProduct = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID']));
 		if ($cartProduct) {
 			$totalAmount = 0;
 			foreach ($cartProduct as $row) {
 				$totalAmount = $totalAmount + ($row['price'] * $row['quantity']);
 			}
+		} else {
+			$totalAmount = 'empty';
 		}
-		echo 'done//'.$totalAmount;
+		echo 'done//' . $totalAmount;
 	}
-	public function cart(){
-		$this->data['cartProducts']=$this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID']));
-		$this->load->view('customer/cart',$this->data);
+	public function CheckOut(){
+		$this->data['cartProduct'] = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
+		$this->load->view('customer/checkout',$this->data);
+	}
+	public function CheckOutData(){
+		//calculate toal bill
+		$cartProducts = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
+		if ($cartProducts) {
+			$totalAmount = 0;
+			foreach ($cartProducts as $row) {
+				$totalAmount += $row['price'] * $row['quantity'];
+			}
+		}
+		$data=array(
+			'address'=>$this->input->post('address'),
+			'address2'=>$this->input->post('address2'),
+			'country'=>$this->input->post('country'),
+			'state'=>$this->input->post('state'),
+			'zip'=>$this->input->post('zip'),
+			'addType'=>$this->input->post('addType'),
+			'totalBill'=>$totalAmount,
+			'addQuestions'=>$this->input->post('addQuestion'),
+			
+		);
+		$this->generic->InsertData('checkout',$data);
+		//get max id
+		$checkoutid=$this->generic->GetMaxID('checkout','checkoutID');
+		//updatecat
+		$this->generic->Update('cart',array('customerID' => $this->session->userdata['loginData']['userID'],'cartStatus'=>0),array('checKoutID'=>$checkoutid[0]['result'],'cartStatus'=>1));
+		$this->session->set_flashdata('checkoutDone', 1);
+		redirect(base_url('order-now'));
 	}
 }

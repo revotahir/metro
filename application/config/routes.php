@@ -107,6 +107,9 @@ $route['order-now']='customer/OrderNow';
 $route['add-to-cart-data']='customer/addToCartData'; //--ajax call
 $route['delet-cart-item']='customer/DeletCartItem'; //--ajax call
 $route['cart']='customer/cart';
+$route['update-cart-qty']='customer/UpdateQuanityFromCart'; //--ajax call
+$route['checkout']='customer/CheckOut'; 
+$route['checkout-data']='customer/CheckOutData'; 
 
 
 $route['logout'] = 'welcome/LogOut';

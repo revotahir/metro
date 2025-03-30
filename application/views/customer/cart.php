@@ -40,8 +40,6 @@
         }
     </style>
     <style>
-       
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -57,12 +55,13 @@
         th {
             background-color: #f4f4f4;
         }
-        tr{
+
+        tr {
             background-color: white;
         }
 
 
-       
+
 
         .cart-totals {
             border: 1px solid #ddd;
@@ -94,7 +93,7 @@
             margin-right: 10px;
         }
     </style>
- 
+
 </head>
 
 <body>
@@ -120,7 +119,7 @@
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="<?= base_url('dashboard') ?>"
+                                        <li class="breadcrumb-item"><a href="<?= base_url('customer-dashboard') ?>"
                                                 class="breadcrumb-link">Dashboard</a>
                                         </li>
                                         <li class="breadcrumb-item active" aria-current="page">Order Now</li>
@@ -141,47 +140,72 @@
                     <!-- data table  -->
                     <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <form action="<?=base_url('update-cart-quantity')?>" method="post">
                         <table>
                             <tr>
                                 <th>Product</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
                                 <th>Subtotal</th>
+                                <th style="width: 12%;">Action</th>
                             </tr>
-                            <?php 
-                                    if($cartProducts){
-                                        foreach($cartProducts as $row){
+                            <?php
+                            if ($cartProducts) {
+                                $totalAmount = 0;
+                                foreach ($cartProducts as $row) {
+                                    $totalAmount += $row['price'] * $row['quantity'];
                             ?>
-                            <tr>
-                                <td><button class="cancel-btn">X</button> <?=$row['productName']?></td>
-                                <td>$ <?=$row['price']?></td>
-                                <td><input type="number" value="<?=$row['quantity']?>" min="1" style="width: 50px" /></td>
-                                <td>$ <?=$row['quantity']*$row['price']?></td>
-                            </tr>
-                            <?php 
-                                        }
-                                    }else{
-                                        ?>
-                                    <tr>
-                                        <td colspan="4">
-                                            <strong>
-                                                <center>No Products Found</center>
-                                            </strong>
+                                    <tr id="cartItem_<?=$row['cartID']?>">
+                                        <td><button class="cancel-btn" onclick="return deleteCart(<?= $row['cartID'] ?>)"><i class="fas fa-trash-alt" style="color: white;"></i></button> <?= $row['productName'] ?></td>
+                                        <td>$<?= $row['price'] ?></td>
+                                        <td><input type="number" value="<?= $row['quantity'] ?>" onchange="return manageUpdateBTNDisbale(<?=$row['cartID']?>,<?= $row['quantity'] ?>)" id="qty_<?=$row['cartID']?>" name="qty_<?=$row['cartID']?>" min="1" style="width: 50px" /></td>
+                                        <td id="itemSubtotal">$<?= $row['quantity'] * $row['price'] ?></td>
+                                        <td>
+                                            <button class="btn btn-primary mt-3 " disabled id="updateBTN_<?=$row['cartID']?>" onclick="return updatecartItem(<?=$row['cartID']?>,<?=$row['price']?>)">Update</button>
                                         </td>
                                     </tr>
-                                        <?php 
-                                    }
-                                    ?>
+                                <?php
+                                }
+                            } else {
+                                ?>
+                                <tr>
+                                    <td colspan="4">
+                                        <strong>
+                                            <center>No Products Found</center>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                            <tr id="noProductFount" style="display: none;">
+                                    <td colspan="4">
+                                        <strong>
+                                            <center>No Products Found</center>
+                                        </strong>
+                                    </td>
+                                </tr>
                         </table>
 
-                        <button class="btn btn-primary mt-3" style="display: flex; margin-left:auto" type="submit">Update cart</button>
-                        </form>
+
                         <div class="cart-totals">
                             <h3>Cart totals</h3>
-                            <p>Subtotal: Rs245,601.00</p>
-                            <p>Total: Rs245,601.00</p>
-                            <button class="btn btn-primary" style="width: 100%;">Proceed to checkout</button>
+                            <span id="cardTotal">
+                                <strong>Subtotal: </strong> $<?php 
+                                if(isset($totalAmount)){
+                                    echo $totalAmount;
+                                }else{
+                                    echo '0';
+                                }
+                                ?><br>
+                                <strong>Total: </strong> $<?php 
+                                if(isset($totalAmount)){
+                                    echo $totalAmount;
+                                }else{
+                                    echo '0';
+                                }
+                                ?><br>
+                            </span>
+                            <a class="btn btn-primary mt-3" href="<?=base_url('checkout')?>" style="width: 100%;">Proceed to checkout</a>
                         </div>
                     </div>
                     <!-- ============================================================== -->
@@ -217,6 +241,15 @@
     <script src="<?= base_url() ?>assets/toastr/toastr.min.js"></script>
 
     <script>
+        function manageUpdateBTNDisbale(cartID,qty){
+            var Newqty = $('#qty_' + cartID).val();
+            if(Newqty==qty){
+                $('#updateBTN_'+cartID).prop('disabled', true);
+            }else{
+                $('#updateBTN_'+cartID).prop('disabled', false); 
+            }
+
+        }
         function deleteCart(cartID) {
             if (confirm('Are you sure you want to delete?')) {
                 $.ajax({
@@ -228,8 +261,24 @@
                     success: function(response) {
                         const parts = response.split('//');
                         if (parts[0] == 'done') {
-                            $('#cartItems_' + cartID).fadeOut();
-                            $('#totalAmount').html('$' + parts[1]);
+                            $('#cartItem_' + cartID).fadeOut();
+
+                            if (parts[1] == 'empty') {
+                                $('#noProductFount').fadeIn;
+                            } else {
+                                $html='<strong>Subtotal: </strong> $'+parts[1]+'<br> <strong>Total: </strong> $'+parts[1]+'<br>';
+                                $('#cardTotal').html($html);
+                            }
+
+                             //total product count
+                             if (parts[2] == 'empty') {
+                                $('#cartBadge').html('');
+                                $('#cartBadge').html('0');
+                            } else {
+                                $('#cartBadge').html('');
+                                $('#cartBadge').html(parts[2]);
+                            }
+
                         }
                     },
                     error: function(xhr, status, error) {
@@ -242,57 +291,44 @@
             }
         }
 
-        function addTocartAjax(productid, price) {
-            var qty = $('#qty_' + productid).val();
-            if (qty == '') {
+        function updatecartItem(cartID,price) {
+            var qty = $('#qty_' + cartID).val();
+            $('#itemSubtotal').html('$'+qty*price);
+            if (qty == '' || qty==0 ) {
                 toastr.options = {
                     "closeButton": true,
                     "showMethod": "fadeIn",
                     "hideMethod": "fadeOut"
                 }
                 toastr.error('Please Enter Quantity!');
-                $('#qty_' + productid).css('border', '1px solid red');
-
+                $('#qty_' + cartID).css('border', '1px solid red');
+                return false
             } else {
                 //  Make an AJAX POST request
                 $.ajax({
-                    url: '<?= base_url('add-to-cart-data') ?>', // URL to the controller method
+                    url: '<?= base_url('update-cart-qty') ?>', // URL to the controller method
                     type: 'POST', // HTTP method
                     data: {
-                        productID: productid,
+                        cartid: cartID,
                         quantity: qty,
-                        price: price
                     }, // Data to send
 
                     success: function(response) {
                         const parts = response.split('//');
-                        //run toaster based on cart update
-                        if (parts[0] == 'QtyUpdated') {
+                        if (parts[0] == 'done') {
+                            //toaster
                             toastr.options = {
                                 "closeButton": true,
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
                             }
-                            toastr.info('Quantity Added!');
-
-                        } else {
-                            toastr.options = {
-                                "closeButton": true,
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
-                            toastr.success('Product Added To Cart!');
+                            toastr.success('Product Quantity Updated!');
+                            $('#cartItems_' + cartID).fadeOut();
+                            $html='<strong>Subtotal: </strong> $'+parts[1]+'<br> <strong>Total: </strong> $'+parts[1]+'<br>';
+                            $('#cardTotal').html($html);
+                            $('#updateBTN_'+cartID).prop('disabled', true);
                         }
-                        //update sumery
-                        $('#summaryLI').html('');
-                        $('#summaryLI').html(parts[1]);
-
-                        //update total Amount
-                        $('#sumaryTotalCount').html('');
-                        $('#sumaryTotalCount').html(parts[2]);
-
-                        //reset input value
-                        $('#qty_' + productid).val('');
+                        
                     },
                     error: function(xhr, status, error) {
                         // Handle errors

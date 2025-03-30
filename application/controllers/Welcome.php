@@ -8,6 +8,10 @@ class Welcome extends MY_Controller
 		parent::__construct();
 		$this->load->helper('file');
 		$this->load->model('Generic_model', 'generic');
+		if(isset($this->session->userdata['loginData']['userID'])){
+		$this->data['cartCount'] = $this->generic->GetCount('cart', 'cartID', array('customerID' => $this->session->userdata['loginData']['userID'], 'cartStatus' => 0));
+		}
+		
 	}
 
 	/**
