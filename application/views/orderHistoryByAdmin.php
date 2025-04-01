@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="<?= base_url() ?>assets/images/favicon.png" type="image/png" />
-    <title>Cart</title>
+    <title>Order History</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?= base_url() ?>assets/admin/vendor/bootstrap/css/bootstrap.min.css">
     <link href="<?= base_url() ?>assets/admin/vendor/fonts/circular-std/style.css" rel="stylesheet">
@@ -39,61 +39,7 @@
             }
         }
     </style>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f4f4f4;
-        }
-
-        tr {
-            background-color: white;
-        }
-
-
-
-
-        .cart-totals {
-            border: 1px solid #ddd;
-            padding: 15px;
-            width: 300px;
-            margin-top: 20px;
-            margin-left: auto;
-            background-color: white;
-        }
-
-        .checkout {
-            background-color: #bccf00;
-            color: black;
-            padding: 15px;
-            border: none;
-            width: 100%;
-            text-align: center;
-            display: block;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .cancel-btn {
-            background-color: red;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-    </style>
-
+   
 </head>
 
 <body>
@@ -115,15 +61,14 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Cart</h2>
+                            <h2 class="pageheader-title">Order History</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="<?= base_url('customer-dashboard') ?>"
                                                 class="breadcrumb-link">Dashboard</a>
                                         </li>
-                                        <li class="breadcrumb-item active" aria-current="page">Order Now</li>
-                                        <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Order History</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -140,74 +85,132 @@
                     <!-- data table  -->
                     <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <table>
-                            <tr>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Subtotal</th>
-                                <th style="width: 12%;">Action</th>
-                            </tr>
-                            <?php
-                            if ($cartProducts) {
-                                $totalAmount = 0;
-                                foreach ($cartProducts as $row) {
-                                    $totalAmount += $row['price'] * $row['quantity'];
-                            ?>
-                                    <tr id="cartItem_<?=$row['cartID']?>">
-                                        <td><button class="cancel-btn" onclick="return deleteCart(<?= $row['cartID'] ?>)"><i class="fas fa-trash-alt" style="color: white;"></i></button> <?= $row['productName'] ?></td>
-                                        <td>$<?= $row['price'] ?></td>
-                                        <td><input type="number" value="<?= $row['quantity'] ?>" onchange="return manageUpdateBTNDisbale(<?=$row['cartID']?>,<?= $row['quantity'] ?>)" id="qty_<?=$row['cartID']?>" name="qty_<?=$row['cartID']?>" min="1" style="width: 50px" /></td>
-                                        <td id="itemSubtotal">$<?= $row['quantity'] * $row['price'] ?></td>
-                                        <td>
-                                            <button class="btn btn-primary mt-3 " disabled id="updateBTN_<?=$row['cartID']?>" onclick="return updatecartItem(<?=$row['cartID']?>,<?=$row['price']?>)">Update</button>
-                                        </td>
-                                    </tr>
-                                <?php
-                                }
-                            } else {
-                                ?>
-                                <tr>
-                                    <td colspan="4">
-                                        <strong>
-                                            <center>No Products Found</center>
-                                        </strong>
-                                    </td>
-                                </tr>
-                            <?php
-                            }
-                            ?>
-                            <tr id="noProductFount" style="display: none;">
-                                    <td colspan="4">
-                                        <strong>
-                                            <center>No Products Found</center>
-                                        </strong>
-                                    </td>
-                                </tr>
-                        </table>
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Order Data</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example" class="table table-striped table-bordered second"
+                                        style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Order# </th>
+                                                <th>Order Date </th>
+                                                <th>Customer</th>
+                                                <th>Delivery/Pickup</th>
+                                                <th>Addition Notes</th>
+                                                <th>Total Bill</th>
+                                                <th>Order Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            if ($allorders) {
+                                                foreach ($allorders as $row) {
+                                            ?>
+                                                    <tr >
 
+                                                        <td><?= $row['checkoutID'] ?></td>
+                                                        <td><?= $row['checkoutDate'] ?></td>
+                                                        <td><?= $row['userName'] ?></td>
 
-                        <div class="cart-totals">
-                            <h3>Cart totals</h3>
-                            <span id="cardTotal">
-                                <strong>Subtotal: </strong> $<?php 
-                                if(isset($totalAmount)){
-                                    echo $totalAmount;
-                                }else{
-                                    echo '0';
-                                }
-                                ?><br>
-                                <strong>Total: </strong> $<?php 
-                                if(isset($totalAmount)){
-                                    echo $totalAmount;
-                                }else{
-                                    echo '0';
-                                }
-                                ?><br>
-                            </span>
-                            <a class="btn btn-primary mt-3" href="<?=base_url('checkout')?>" style="width: 100%;">Proceed to checkout</a>
+                                                        <td>
+                                                            Address Type: <?=($row['addType']==1)?'Delivery':'Pickup'?>
+                                                            <?= $row['address'] ?><br>
+                                                            <?= $row['address2'] ?><br>
+                                                            <?= $row['state'] ?>, <?=$row['country']?><br>
+                                                            ZIP: <?=$row['zip']?>
+                                                        </td>
+                                                      
+                                                        <td>
+                                                            <?=$row['addQuestions']?>
+                                                        </td>
+                                                        <td>
+                                                            $<?=$row['totalBill']?>
+                                                        </td>
+                                                        <td>
+                                                            <form method="post" action="<?=base_url('update-order-status/'.$row['checkoutID'])?>">
+                                                                <select name="orderstatus" id="orderstatus" onchange="this.form.submit()" class="form-control">
+                                                                    <option value="">Select Order Status</option>
+                                                                    <option 
+                                                                    <?php 
+                                                                    if($row['orderStatus']==1){
+                                                                        echo 'selected';
+                                                                    }
+                                                                    ?>
+                                                                    value="1">In Process</option>
+                                                                    <option
+                                                                    <?php 
+                                                                    if($row['orderStatus']==2){
+                                                                        echo 'selected';
+                                                                    }
+                                                                    ?>
+                                                                    value="2">In route</option>
+                                                                    <option
+                                                                    <?php 
+                                                                    if($row['orderStatus']==3){
+                                                                        echo 'selected';
+                                                                    }
+                                                                    ?>
+                                                                    value="3">Delivered</option>
+                                                                    <option
+                                                                    <?php 
+                                                                    if($row['orderStatus']==4){
+                                                                        echo 'selected';
+                                                                    }
+                                                                    ?>
+                                                                    value="4">Rescheduled</option>
+                                                                    <option
+                                                                    <?php 
+                                                                    if($row['orderStatus']==5){
+                                                                        echo 'selected';
+                                                                    }
+                                                                    ?>
+                                                                    value="5">Cancelled</option>
+                                                                </select>
+                                                            </form>
+                                                           
+                                                        </td>
+                                                        <td>
+                                                           <a href="<?=base_url('order-invoice/'.$row['checkoutID'])?>" class="btn btn-primary"><i class="fas fa-eye"></i> View Invoice</a>
+                                                        </td>
+
+                                                    </tr>
+                                                <?php
+                                                }
+                                            } else {
+
+                                                ?>
+                                                <tr>
+                                                    <td colspan="9">
+                                                        <center>No Data Found!</center>
+                                                    </td>
+                                                </tr>
+                                            <?php
+
+                                            }
+                                            ?>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                            <th>Order# </th>
+                                            <th>Order Date </th>
+                                            <th>Customer</th>
+                                                <th>Delivery/Pickup</th>
+                                                <th>Addition Notes</th>
+                                                <th>Total Bill</th>
+                                                <th>Order Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
                     <!-- ============================================================== -->
                     <!-- end data table  -->
                     <!-- ============================================================== -->
@@ -240,106 +243,22 @@
     <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
     <script src="<?= base_url() ?>assets/toastr/toastr.min.js"></script>
 
-    <script>
-        function manageUpdateBTNDisbale(cartID,qty){
-            var Newqty = $('#qty_' + cartID).val();
-            if(Newqty==qty){
-                $('#updateBTN_'+cartID).prop('disabled', true);
-            }else{
-                $('#updateBTN_'+cartID).prop('disabled', false); 
-            }
 
-        }
-        function deleteCart(cartID) {
-            if (confirm('Are you sure you want to delete?')) {
-                $.ajax({
-                    url: '<?= base_url('delet-cart-item') ?>',
-                    type: 'POST',
-                    data: {
-                        cartid: cartID
-                    },
-                    success: function(response) {
-                        const parts = response.split('//');
-                        if (parts[0] == 'done') {
-                            $('#cartItem_' + cartID).fadeOut();
-
-                            if (parts[1] == 'empty') {
-                                $('#noProductFount').fadeIn;
-                            } else {
-                                $html='<strong>Subtotal: </strong> $'+parts[1]+'<br> <strong>Total: </strong> $'+parts[1]+'<br>';
-                                $('#cardTotal').html($html);
-                            }
-
-                             //total product count
-                             if (parts[2] == 'empty') {
-                                $('#cartBadge').html('');
-                                $('#cartBadge').html('0');
-                            } else {
-                                $('#cartBadge').html('');
-                                $('#cartBadge').html(parts[2]);
-                            }
-
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle errors
-                        console.error('AJAX Error: ' + status + error);
-                    }
-                });
-            } else {
-                return false;
-            }
-        }
-
-        function updatecartItem(cartID,price) {
-            var qty = $('#qty_' + cartID).val();
-            $('#itemSubtotal').html('$'+qty*price);
-            if (qty == '' || qty==0 ) {
-                toastr.options = {
-                    "closeButton": true,
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                }
-                toastr.error('Please Enter Quantity!');
-                $('#qty_' + cartID).css('border', '1px solid red');
-                return false
-            } else {
-                //  Make an AJAX POST request
-                $.ajax({
-                    url: '<?= base_url('update-cart-qty') ?>', // URL to the controller method
-                    type: 'POST', // HTTP method
-                    data: {
-                        cartid: cartID,
-                        quantity: qty,
-                    }, // Data to send
-
-                    success: function(response) {
-                        const parts = response.split('//');
-                        if (parts[0] == 'done') {
-                            //toaster
-                            toastr.options = {
-                                "closeButton": true,
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
-                            toastr.success('Product Quantity Updated!');
-                            $('#cartItems_' + cartID).fadeOut();
-                            $html='<strong>Subtotal: </strong> $'+parts[1]+'<br> <strong>Total: </strong> $'+parts[1]+'<br>';
-                            $('#cardTotal').html($html);
-                            $('#updateBTN_'+cartID).prop('disabled', true);
-                        }
-                        
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle errors
-                        console.error('AJAX Error: ' + status + error);
-                    }
-                });
-            }
-
-        }
-    </script>
     <!-- deactive -->
+    <?php
+    if ($this->session->flashdata('orderStatusUpdated') != '') {
+    ?>
+        <script type="text/javascript">
+            toastr.options = {
+                "closeButton": true,
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            toastr.success('Order Status Updated!');
+        </script>
+    <?php
+    }
+    ?>
     <?php
     if ($this->session->flashdata('ProductDeactivated') != '') {
     ?>

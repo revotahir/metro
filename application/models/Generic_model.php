@@ -150,6 +150,17 @@ class Generic_model extends CI_Model
 
         return $query->result_array(); // Return results as an array
     }
+    public function GetOrderListByCusotmer($where=false){
+        $this->db->select('*');
+        $this->db->from('checkout c');
+        $this->db->join('users u', 'c.customerID = u.userID', 'inner');
+        if($where){
+            $this->db->where($where);
+        }
+        $query = $this->db->get();
+
+        return $query->result_array(); // Return results as an array
+    }
 
 
   

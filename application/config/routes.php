@@ -100,6 +100,10 @@ $route['delete-product/:any'] = 'welcome/DeleteProduct';
 $route['edit-product/:any'] = 'welcome/EditProduct';
 $route['update-product-data/:any'] = 'welcome/EditProductData';
 
+
+//order managment
+$route['manage-admin-orders']='welcome/ManageAdminProducts';
+$route['update-order-status/:any']='welcome/UpdateOrderStatus';
 //---------Customer routes
 $route['customer-dashboard']='customer/Dashboard';
 //order now
@@ -110,6 +114,8 @@ $route['cart']='customer/cart';
 $route['update-cart-qty']='customer/UpdateQuanityFromCart'; //--ajax call
 $route['checkout']='customer/CheckOut'; 
 $route['checkout-data']='customer/CheckOutData'; 
+$route['order-history']='customer/OrderHistory'; 
+$route['order-invoice/:any']='customer/OrderInvoice'; 
 
 
 $route['logout'] = 'welcome/LogOut';

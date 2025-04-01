@@ -459,7 +459,16 @@ class Welcome extends MY_Controller
 		}
 		$this->load->view('products/manageAssignProduct',$this->data);
 	}
+public function ManageAdminProducts(){
+	$this->data['allorders']=$this->generic->GetOrderListByCusotmer();
+	$this->load->view('orderHistoryByAdmin',$this->data);
+}
+public function UpdateOrderStatus(){
+	$this->generic->Update('checkout',array('checkoutID'=>$this->uri->segment(2)),array('orderStatus'=>$this->input->post('orderstatus')));
+	$this->session->set_flashdata('orderStatusUpdated', 1);
+		redirect(base_url('manage-admin-orders'));
 
+}
 
 	// <!-- ============================================================== -->
 	// <!-- logout function -->

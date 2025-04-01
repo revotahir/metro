@@ -89,12 +89,12 @@
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="<?= base_url('order-now') ?>"><i
-                                        class="fas fa-cart-plus"></i>Order Now 
+                                        class="fas fa-shopping-basket"></i>Order Now 
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="<?= base_url('order-now') ?>"><i
-                                        class="fas fa-cart-plus"></i>Order History
+                                <a class="nav-link" href="<?= base_url('order-history') ?>"><i
+                                        class="fab fa-wpforms"></i>Order History
                                 </a>
                             </li>
                         </ul>
@@ -178,6 +178,11 @@
                                         </li>
                                     </ul>
                                 </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?=base_url('manage-admin-orders')?>" ><i class="fas fa-shopping-basket"></i>Manage
+                                    Orders</a>
+                              
                             </li>
                         </ul>
                     </div>

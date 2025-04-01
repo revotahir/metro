@@ -1,4 +1,7 @@
 <?php
+
+use Phpass\Loader;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class customer extends MY_Controller
@@ -150,6 +153,7 @@ class customer extends MY_Controller
 			}
 		}
 		$data=array(
+			'customerID'=>$this->session->userdata['loginData']['userID'],
 			'address'=>$this->input->post('address'),
 			'address2'=>$this->input->post('address2'),
 			'country'=>$this->input->post('country'),
@@ -167,5 +171,15 @@ class customer extends MY_Controller
 		$this->generic->Update('cart',array('customerID' => $this->session->userdata['loginData']['userID'],'cartStatus'=>0),array('checKoutID'=>$checkoutid[0]['result'],'cartStatus'=>1));
 		$this->session->set_flashdata('checkoutDone', 1);
 		redirect(base_url('order-now'));
+	}
+	public function OrderHistory(){
+		$this->data['orderList']=$this->generic->GetData('checkout',array('customerID'=>$this->session->userdata['loginData']['userID']));
+		$this->load->view('customer/orderHistory',$this->data);
+	}
+	public function OrderInvoice(){
+		$this->data['order']=$this->generic->GetData('checkout',array('checkoutID'=>$this->uri->segment(2)));
+		$this->data['userData']=$this->generic->GetData('users',array('userID'=>$this->data['order'][0]['customerID']));
+		$this->data['cartProduct'] = $this->generic->GetProductsByCart(array('c.cartStatus'=>1,'checkoutID'=>$this->uri->segment(2)));
+		$this->load->view('customer/invoice',$this->data);
 	}
 }
