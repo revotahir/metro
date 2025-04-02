@@ -117,6 +117,9 @@ $route['checkout-data']='customer/CheckOutData';
 $route['order-history']='customer/OrderHistory'; 
 $route['order-invoice/:any']='customer/OrderInvoice'; 
 
+//test email
+$route['test-mail']='welcome/TestMail'; 
+
 
 $route['logout'] = 'welcome/LogOut';
 $route['default_controller'] = 'welcome';

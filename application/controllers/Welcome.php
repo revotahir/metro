@@ -8,10 +8,9 @@ class Welcome extends MY_Controller
 		parent::__construct();
 		$this->load->helper('file');
 		$this->load->model('Generic_model', 'generic');
-		if(isset($this->session->userdata['loginData']['userID'])){
-		$this->data['cartCount'] = $this->generic->GetCount('cart', 'cartID', array('customerID' => $this->session->userdata['loginData']['userID'], 'cartStatus' => 0));
+		if (isset($this->session->userdata['loginData']['userID'])) {
+			$this->data['cartCount'] = $this->generic->GetCount('cart', 'cartID', array('customerID' => $this->session->userdata['loginData']['userID'], 'cartStatus' => 0));
 		}
-		
 	}
 
 	/**
@@ -328,30 +327,30 @@ class Welcome extends MY_Controller
 		// 	$this->session->set_flashdata('uploadError', $error);
 		// 	redirect(base_url('add-new-product'));
 		// } else {
-			// If upload is successful, get the file data
-			$upload_data = $this->upload->data();
+		// If upload is successful, get the file data
+		$upload_data = $this->upload->data();
 
-			// Prepare data for database insertion
-			$data = array(
-				'userID' => $this->input->post('vendorID'),
-				'catID' => $this->input->post('catID'),
-				'productName' => $this->input->post('product-name'),
-				'productPrice' => $this->input->post('price'),
-				'productCuisineItem' => $this->input->post('cuisine-item'),
-				'productCuisineUpc' => $this->input->post('cuisine-upc'),
-				'productLength' => $this->input->post('product-length'),
-				'productHeight' => $this->input->post('product-height'),
-				'productWidth' => $this->input->post('product-width'),
-				'productWeight' => $this->input->post('product-weight'),
-				'productDesp' => $this->input->post('Description'),
-				'productImage' => $upload_data['file_name']
-			);
+		// Prepare data for database insertion
+		$data = array(
+			'userID' => $this->input->post('vendorID'),
+			'catID' => $this->input->post('catID'),
+			'productName' => $this->input->post('product-name'),
+			'productPrice' => $this->input->post('price'),
+			'productCuisineItem' => $this->input->post('cuisine-item'),
+			'productCuisineUpc' => $this->input->post('cuisine-upc'),
+			'productLength' => $this->input->post('product-length'),
+			'productHeight' => $this->input->post('product-height'),
+			'productWidth' => $this->input->post('product-width'),
+			'productWeight' => $this->input->post('product-weight'),
+			'productDesp' => $this->input->post('Description'),
+			'productImage' => $upload_data['file_name']
+		);
 
-			// Insert data into the database
-			$this->generic->InsertData('products', $data);
-			$this->session->set_flashdata('productUploaded', 1);
-			// Redirect or show success message
-			redirect(base_url('add-new-product')); // Replace with your success route
+		// Insert data into the database
+		$this->generic->InsertData('products', $data);
+		$this->session->set_flashdata('productUploaded', 1);
+		// Redirect or show success message
+		redirect(base_url('add-new-product')); // Replace with your success route
 		// }
 	}
 
@@ -407,68 +406,88 @@ class Welcome extends MY_Controller
 				// If upload fails, show error
 				$error = $this->upload->display_errors();
 				$this->session->set_flashdata('uploadError', $error);
-				redirect(base_url('edit-product/'.$this->uri->segment(2)));
+				redirect(base_url('edit-product/' . $this->uri->segment(2)));
 			} else {
 				// If upload is successful, get the file data
-			$upload_data = $this->upload->data();
-			$data['productImage']=$upload_data['file_name'];
+				$upload_data = $this->upload->data();
+				$data['productImage'] = $upload_data['file_name'];
 			}
-
 		}
-		$this->generic->Update('products',array('productID'=>$this->uri->segment(2)),$data);
+		$this->generic->Update('products', array('productID' => $this->uri->segment(2)), $data);
 		$this->session->set_flashdata('ProductUpdated', 1);
 		redirect(base_url('manage-Products'));
 	}
 
 	//assign product
-	public function assignProductView(){
-		$this->data['customers']=$this->generic->GetData('users',array('userType'=>2,'userStatus'=>1));
-		if(isset($_GET['customerID'])){
-			$this->data['products']=$this->generic->GetUnassignedProducts($_GET['customerID']);
-		}else{
-			$this->data['products']=false;
+	public function assignProductView()
+	{
+		$this->data['customers'] = $this->generic->GetData('users', array('userType' => 2, 'userStatus' => 1));
+		if (isset($_GET['customerID'])) {
+			$this->data['products'] = $this->generic->GetUnassignedProducts($_GET['customerID']);
+		} else {
+			$this->data['products'] = false;
 		}
-		$this->load->view('products/assignProduct',$this->data);
+		$this->load->view('products/assignProduct', $this->data);
 	}
 	// assign product ajax
-	public function assignProductDataAjax(){
-		$data=array(
-			'customerID'=>$this->input->post('customerID'),
-			'productID'=>$this->input->post('productID'),
-			'newPrice'=>$this->input->post('newPRice'),
+	public function assignProductDataAjax()
+	{
+		$data = array(
+			'customerID' => $this->input->post('customerID'),
+			'productID' => $this->input->post('productID'),
+			'newPrice' => $this->input->post('newPRice'),
 		);
-		$this->generic->InsertData('assignproduct',$data);
+		$this->generic->InsertData('assignproduct', $data);
 		echo 'productAssign';
 	}
-	public function assignProductEditDataAjax(){
-		$data=array(
-			
-			'newPrice'=>$this->input->post('newPRice'),
+	public function assignProductEditDataAjax()
+	{
+		$data = array(
+
+			'newPrice' => $this->input->post('newPRice'),
 		);
-		$this->generic->Update('assignproduct',array('customerID'=>$this->input->post('customerID'),
-			'productID'=>$this->input->post('productID')),$data);
+		$this->generic->Update('assignproduct', array(
+			'customerID' => $this->input->post('customerID'),
+			'productID' => $this->input->post('productID')
+		), $data);
 		echo 'productedited';
 	}
 	//manage assign products
-	public function manageAssignProducts(){
-		$this->data['customers']=$this->generic->GetData('users',array('userType'=>2,'userStatus'=>1));
-		if(isset($_GET['customerID'])){
-			$this->data['products']=$this->generic->GetAssignedProducts($_GET['customerID']);
-		}else{
-			$this->data['products']=false;
+	public function manageAssignProducts()
+	{
+		$this->data['customers'] = $this->generic->GetData('users', array('userType' => 2, 'userStatus' => 1));
+		if (isset($_GET['customerID'])) {
+			$this->data['products'] = $this->generic->GetAssignedProducts($_GET['customerID']);
+		} else {
+			$this->data['products'] = false;
 		}
-		$this->load->view('products/manageAssignProduct',$this->data);
+		$this->load->view('products/manageAssignProduct', $this->data);
 	}
-public function ManageAdminProducts(){
-	$this->data['allorders']=$this->generic->GetOrderListByCusotmer();
-	$this->load->view('orderHistoryByAdmin',$this->data);
-}
-public function UpdateOrderStatus(){
-	$this->generic->Update('checkout',array('checkoutID'=>$this->uri->segment(2)),array('orderStatus'=>$this->input->post('orderstatus')));
-	$this->session->set_flashdata('orderStatusUpdated', 1);
+	public function ManageAdminProducts()
+	{
+		$this->data['allorders'] = $this->generic->GetOrderListByCusotmer();
+		$this->load->view('orderHistoryByAdmin', $this->data);
+	}
+	public function UpdateOrderStatus()
+	{
+		$this->generic->Update('checkout', array('checkoutID' => $this->uri->segment(2)), array('orderStatus' => $this->input->post('orderstatus')));
+		$this->session->set_flashdata('orderStatusUpdated', 1);
 		redirect(base_url('manage-admin-orders'));
+	}
+	public function TestMail()
+	{
+		$email = 'revotahir@gmail.com';
+		$subject = 'Test Email';
+		$message = '<p>This is test Email</p>';
 
-}
+		$result = $this->send_email($email, $subject, $message);
+
+		if ($result === true) {
+			die("Email sent successfully.") ;
+		} else {
+			die("Email failed: " . $result);
+		}
+	}
 
 	// <!-- ============================================================== -->
 	// <!-- logout function -->

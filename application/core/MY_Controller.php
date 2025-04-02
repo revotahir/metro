@@ -20,6 +20,20 @@ class MY_Controller extends CI_Controller {
         if (!in_array($current_page, $excluded_pages) && !$this->session->userdata('loginData')) {
             redirect(base_url()); // Redirect to the login page or home page
         }
+        $this->load->library('email');
+        $this->config->load('email'); // Load SMTP settings
     }
+    }
+    public function send_email($to, $subject, $message) {
+        $this->email->from('order@mymetrofoods.com', 'MyMetroFoods');
+        $this->email->to($to);
+        $this->email->subject($subject);
+        $this->email->message($message);
+
+        if ($this->email->send()) {
+            return true;
+        } else {
+            return $this->email->print_debugger(); // For debugging errors
+        }
     }
 }
