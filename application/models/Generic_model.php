@@ -67,7 +67,7 @@ class Generic_model extends CI_Model
             return false;
         }
     }
-    public function GetCount($table, $colum,$where=false)
+    public function GetCount($table, $colum, $where = false)
     {
         $this->db->select('count(' . $colum . ') as result');
         $this->db->from($table);
@@ -115,7 +115,8 @@ class Generic_model extends CI_Model
             return false;
         }
     }
-    public function GetUnassignedProducts($customerID) {
+    public function GetUnassignedProducts($customerID)
+    {
         $this->db->select('p.*, v.*, pc.*');
         $this->db->from('products p');
         $this->db->join('productcategory pc', 'p.catID = pc.catID', 'inner');
@@ -127,7 +128,8 @@ class Generic_model extends CI_Model
 
         return $query->result_array(); // Return results as an array
     }
-    public function GetAssignedProducts($customerID){
+    public function GetAssignedProducts($customerID)
+    {
         $this->db->select('p.*, v.*, pc.*,ap.newPrice');
         $this->db->from('products p');
         $this->db->join('productcategory pc', 'p.catID = pc.catID', 'inner');
@@ -139,29 +141,38 @@ class Generic_model extends CI_Model
 
         return $query->result_array(); // Return results as an array
     }
-    public function GetProductsByCart($where=false){
+    public function GetProductsByCart($where = false)
+    {
         $this->db->select('*');
         $this->db->from('cart c');
         $this->db->join('products p', 'p.productID = c.productID', 'inner');
-        if($where){
+        if ($where) {
             $this->db->where($where);
         }
         $query = $this->db->get();
 
         return $query->result_array(); // Return results as an array
     }
-    public function GetOrderListByCusotmer($where=false){
+    public function GetOrderListByCusotmer($where = false)
+    {
         $this->db->select('*');
         $this->db->from('checkout c');
         $this->db->join('users u', 'c.customerID = u.userID', 'inner');
-        if($where){
+        if ($where) {
             $this->db->where($where);
         }
         $query = $this->db->get();
 
         return $query->result_array(); // Return results as an array
     }
-
-
-  
+    public function GetDistVendorInCart($checkoutID)
+    {
+        $this->db->distinct();
+        $this->db->select('vendorID');
+        $this->db->from('cart');
+        $this->db->where('checkoutID', $checkoutID);
+        $query = $this->db->get();
+        // die($this->db->last_query());
+        return $query->result_array(); // Get results as an array
+    }
 }

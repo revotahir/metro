@@ -36,7 +36,7 @@ class customer extends MY_Controller
 
 	public function OrderNow()
 	{
-		$this->data['cartProduct'] = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
+		$this->data['cartProduct'] = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'], 'c.cartStatus' => 0));
 		$this->data['products'] = $this->generic->GetAssignedProducts($this->session->userdata['loginData']['userID']);
 		$this->load->view('customer/order-now', $this->data);
 	}
@@ -74,7 +74,7 @@ class customer extends MY_Controller
 			$output = $output . 'AddedNew//';
 		}
 		//get all product for sumary
-		$cartProduct = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
+		$cartProduct = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'], 'c.cartStatus' => 0));
 		if ($cartProduct) {
 			$totalAmount = 0;
 			$li = '';
@@ -106,7 +106,7 @@ class customer extends MY_Controller
 	{
 		//delet from cart
 		$this->generic->Delete('cart', array('cartID' => $this->input->post('cartid')));
-		$cartProduct = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
+		$cartProduct = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'], 'c.cartStatus' => 0));
 		if ($cartProduct) {
 			$totalproducts = 0;
 			$totalAmount = 0;
@@ -122,7 +122,7 @@ class customer extends MY_Controller
 	}
 	public function cart()
 	{
-		$this->data['cartProducts'] = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
+		$this->data['cartProducts'] = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'], 'c.cartStatus' => 0));
 		$this->load->view('customer/cart', $this->data);
 	}
 	public function UpdateQuanityFromCart()
@@ -139,47 +139,151 @@ class customer extends MY_Controller
 		}
 		echo 'done//' . $totalAmount;
 	}
-	public function CheckOut(){
-		$this->data['cartProduct'] = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
-		$this->load->view('customer/checkout',$this->data);
+	public function CheckOut()
+	{
+		$this->data['cartProduct'] = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'], 'c.cartStatus' => 0));
+		$this->load->view('customer/checkout', $this->data);
 	}
-	public function CheckOutData(){
+	public function CheckOutData()
+	{
 		//calculate toal bill
-		$cartProducts = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'],'c.cartStatus'=>0));
+		$cartProducts = $this->generic->GetProductsByCart(array('c.customerID' => $this->session->userdata['loginData']['userID'], 'c.cartStatus' => 0));
 		if ($cartProducts) {
 			$totalAmount = 0;
+			$productList = '';
 			foreach ($cartProducts as $row) {
 				$totalAmount += $row['price'] * $row['quantity'];
+				$productList = $productList . '<strong>' . $row['productName'] . '</strong>' . '<br>' . $row['quantity'] . ' X $' . $row['price'] . '<br>';
 			}
 		}
-		$data=array(
-			'customerID'=>$this->session->userdata['loginData']['userID'],
-			'address'=>$this->input->post('address'),
-			'address2'=>$this->input->post('address2'),
-			'country'=>$this->input->post('country'),
-			'state'=>$this->input->post('state'),
-			'zip'=>$this->input->post('zip'),
-			'addType'=>$this->input->post('addType'),
-			'totalBill'=>$totalAmount,
-			'addQuestions'=>$this->input->post('addQuestion'),
-			
+		$data = array(
+			'customerID' => $this->session->userdata['loginData']['userID'],
+			'address' => $this->input->post('address'),
+			'address2' => $this->input->post('address2'),
+			'country' => $this->input->post('country'),
+			'state' => $this->input->post('state'),
+			'zip' => $this->input->post('zip'),
+			'addType' => $this->input->post('addType'),
+			'totalBill' => $totalAmount,
+			'addQuestions' => $this->input->post('addQuestion'),
+
 		);
-		$this->generic->InsertData('checkout',$data);
+		$this->generic->InsertData('checkout', $data);
 		//get max id
-		$checkoutid=$this->generic->GetMaxID('checkout','checkoutID');
+		$checkoutid = $this->generic->GetMaxID('checkout', 'checkoutID');
 		//updatecat
-		$this->generic->Update('cart',array('customerID' => $this->session->userdata['loginData']['userID'],'cartStatus'=>0),array('checKoutID'=>$checkoutid[0]['result'],'cartStatus'=>1));
+		$this->generic->Update('cart', array('customerID' => $this->session->userdata['loginData']['userID'], 'cartStatus' => 0), array('checKoutID' => $checkoutid[0]['result'], 'cartStatus' => 1));
+
+		//email to custmer
+		$email = $this->session->userdata['loginData']['userEmail'];
+		$subject = 'Order Confirmation';
+		$message = ' Hi ' . $this->session->userdata['loginData']['userName'] . ',<br>
+		<p>Thank you for placing your order with Metro Foods. We’ve received your order and it’s currently being processed.</P>
+		<strong>Order Summary:</strong><br><br>
+		<strong>Order Number: ' . $checkoutid[0]['result'] . '</strong><br>
+		<strong>Items:</strong><br>' . $productList . '<br>
+		<strong>Total:</strong> $' . $totalAmount . '<br>
+		<strong>Estimated Delivery or Pickup Time:</strong>  A team member from metro foods will reach out regarding your delivery<br>
+		<p>You will receive an update once your order is out for delivery or ready for pickup.
+		If you have any questions or need assistance, feel free to reply to this email or contact us at</p>
+		orders@mymetrofoods.com<br>
+		Thank you for choosing Metro Foods.<br>
+		Best regards,<br>
+		<strong>The Metro Foods Team<strong>
+		';
+		$result = $this->send_email($email, $subject, $message);
+
+
+
+		//email to vendors
+		//--get all vendors id thorugh cart
+		$vendorsID = $this->generic->GetDistVendorInCart($checkoutid[0]['result']);
+		if ($vendorsID) {
+			// die('aaa');
+			$vendorsName='';
+			$vendorNameCheck=1;
+			$overallTotalVendoramount=0; //overall vendor amount for metro food email
+			foreach ($vendorsID as $row) {
+				//get products for curent vendor id
+				$cartProductsByVendor = $this->generic->GetProductsByCart(array('c.checkoutID' => $checkoutid[0]['result'], 'c.vendorID' => $row['vendorID']));
+				if ($cartProductsByVendor) {
+					$vendortotalAmount = 0;
+					$vendorproductList = '';
+					foreach ($cartProductsByVendor as $row1) {
+						$vendortotalAmount += $row1['productPrice'] * $row1['quantity'];
+						
+						$vendorproductList = $vendorproductList . '<strong>' . $row1['productName'] . '</strong>' . '<br>' . $row1['quantity'] . ' X $' . $row1['productPrice'] . '<br>';
+					}
+					$overallTotalVendoramount=$overallTotalVendoramount+$vendortotalAmount;
+				}
+				//get vendor Detail 
+				$vendorDetail = $this->generic->GetData('users', array('userID' => $row['vendorID']));
+				//set vendor name for metro foods email
+				if($vendorNameCheck==1){
+					$vendorsName=$vendorsName.$vendorDetail[0]['userName'];
+					$vendorNameCheck++;
+				}else{
+					$vendorsName=$vendorsName.', '.$vendorDetail[0]['userName'];
+				}
+				
+
+
+				//generate email for vendor
+				
+				$email = $vendorDetail[0]['userEmail'];
+				$subject = 'New Metro Foods Order Received – '.$checkoutid[0]['result'];
+				$message = ' Hello ' . $vendorDetail[0]['userName'] . ',<br>
+				<p>You have received a new order through the Metro Foods portal. Please begin preparing the order as soon as possible.</P>
+				<strong>Order Summary:</strong><br><br>
+				<strong>Order Number: ' . $checkoutid[0]['result'] . '</strong><br>
+				<strong>Items:</strong><br>' . $vendorproductList . '<br>
+				<strong>Total:</strong> $' . $vendortotalAmount . '<br>
+				<p>For any issues or delays, contact Metro Support at orders@mymetrofoods.com
+				Thank you for your partnership.<br>
+				Sincerely,<br>
+				Metro Foods Operations</p>
+								
+				';
+				$result = $this->send_email($email, $subject, $message);
+			}
+		}
+
+
+				//email to metro foods
+				$email = 'orders@mymetrofoods.com';
+				$subject = 'New Order Placed – '.$checkoutid[0]['result'] ;
+				$message = '  Team,<br>
+				<p>A new order has been submitted through the customer portal. Please see the details below:</P>
+				<strong>Order Summary:</strong><br><br>
+				<strong>Order Number: ' . $checkoutid[0]['result'] . '</strong><br>
+				<strong>Customer Name: ' . $this->session->userdata['loginData']['userName'] . '</strong><br>
+				<strong>Vendor: ' . $vendorsName . '</strong><br>
+				<strong>Delivery or Pickup: : ' . $this->input->post('addType') . '</strong><br>
+				<strong>Order Breakdown:</strong><br>' . $productList . '<br>
+				<strong>Total Customer Amount:</strong> $' . $totalAmount . '<br>
+				<strong>Total Vendor Amount:</strong> $' . $overallTotalVendoramount . '<br>
+				<p>The customer and vendor have been notified. Please monitor for processing and fulfillment. If there are any issues, please escalate to Waleed Akram at wakram@mymetrofoods.com<br>
+Thank you!
+</p>
+				
+				';
+				$result = $this->send_email($email, $subject, $message);
+		
+
+
 		$this->session->set_flashdata('checkoutDone', 1);
 		redirect(base_url('order-now'));
 	}
-	public function OrderHistory(){
-		$this->data['orderList']=$this->generic->GetData('checkout',array('customerID'=>$this->session->userdata['loginData']['userID']));
-		$this->load->view('customer/orderHistory',$this->data);
+	public function OrderHistory()
+	{
+		$this->data['orderList'] = $this->generic->GetData('checkout', array('customerID' => $this->session->userdata['loginData']['userID']));
+		$this->load->view('customer/orderHistory', $this->data);
 	}
-	public function OrderInvoice(){
-		$this->data['order']=$this->generic->GetData('checkout',array('checkoutID'=>$this->uri->segment(2)));
-		$this->data['userData']=$this->generic->GetData('users',array('userID'=>$this->data['order'][0]['customerID']));
-		$this->data['cartProduct'] = $this->generic->GetProductsByCart(array('c.cartStatus'=>1,'checkoutID'=>$this->uri->segment(2)));
-		$this->load->view('customer/invoice',$this->data);
+	public function OrderInvoice()
+	{
+		$this->data['order'] = $this->generic->GetData('checkout', array('checkoutID' => $this->uri->segment(2)));
+		$this->data['userData'] = $this->generic->GetData('users', array('userID' => $this->data['order'][0]['customerID']));
+		$this->data['cartProduct'] = $this->generic->GetProductsByCart(array('c.cartStatus' => 1, 'checkoutID' => $this->uri->segment(2)));
+		$this->load->view('customer/invoice', $this->data);
 	}
 }
